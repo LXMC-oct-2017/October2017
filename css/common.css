@@ -1,0 +1,11 @@
+div {
+  font-size: 20px;
+}
+
+.link {
+  width: 200px;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
