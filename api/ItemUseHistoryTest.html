@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ItemUseHistoryTest</title>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<style type="text/css">
+		table, th, tr, td{
+			margin : 5%;
+			padding: 10px;
+			border: solid 1px #000;
+			text-align: center;
+			border-collapse: collapse;
+		}
+		th{
+			
+			background-color: #afa;
+		}
+	</style>
+</head>
+<body>
+
+	<table id="item-use-history">
+		<tr>
+			<th>TEAM_ID</th>
+			<th>ITEM_ID</th>
+			<th>DEAL_ID_LIST</th>
+			<th>ITEM_USE_RESULT</th>
+		</tr>
+	</table>
+
+	<script type="text/javascript">
+		
+	let getItemUseHistory = function(){
+		$.ajax({
+			type: "GET",
+			url: "/lxmc/api/ItemUseHistory.php",
+			dataType: "json",
+			data: {'teamId':'2'},
+			success: showJson,
+			error: function( data ){console.log(data.responseText);},
+		});
+	}
+	$('body').ready(getItemUseHistory);
+
+	let showJson = function(json){
+		console.log(json);
+		let i = 0;
+		json.forEach( function(data){
+			let teamId = data.teamId;
+			let itemId = data.itemId;
+			let dealIds = data.dealIds;
+			let itemUseResult = data.itemUseResult;
+			let tr = $('<tr></tr>').appendTo($('#item-use-history'));
+			tr.append('<td>'+teamId+'</td>');
+			tr.append('<td>'+itemId+'</td>');
+			tr.append('<td>'+dealIds+'</td>');
+			tr.append('<td>'+itemUseResult+'</td>');
+		});
+	}
+
+	</script>
+</body>
+</html>
