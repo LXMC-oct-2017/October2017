@@ -2,6 +2,18 @@ div {
   font-size: 20px;
 }
 
+#header {
+  height: 20%;
+}
+
+#contents {
+  height: 80%;
+}
+
+#footer {
+  height: 20%;
+}
+
 .link {
   width: 200px;
   margin: 0 auto;
