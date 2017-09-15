@@ -19,7 +19,7 @@
             }
         ?>
     </div>
-    <form id="password-form" method="GET" action="login-auth.php">
+    <form id="password-form" method="GET" action="./login-auth.php">
         <select name="team-id">
             <option value= "0">TEAM 01</option>
             <option value= "1">TEAM 02</option>
@@ -47,10 +47,9 @@
     </form>
     <script>
         $('input[name="password-submit"]').click( function(){
-            console.log('test');
             let result = validate();
             if(result.code != ValidatoinResult.SUCCESS){
-                console.log("error");
+				$('#err').empty();
                 let errMsg = $('<p></p>').attr('id', 'err-msg').appendTo($('#err'));
                 errMsg.text(result.msg);
                 return false;

@@ -17,7 +17,7 @@
      *  select password
      */
     function selectCorrectPassword($team_id){
-        require './api/database/database.php';
+        require '../api/database/database.php';
         $db = Database::connect();
         $stmt = $db->query("select PASSWORD from TEAM where TEAM_ID = $team_id");
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 'PASSWORD');
@@ -29,6 +29,8 @@
      */
     function login(){
         $_SESSION['LXMC_TEAM'] = $_GET['team-id'];
+		$top_url = '../index.php';
+		header("Location: $top_url");
     }
 
     /**
