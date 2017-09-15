@@ -2,7 +2,7 @@
     session_start();
     if( !isset($_SESSION['LXMC_TEAM']) ){
         // not logged in
-        $login_url = '../login/login.php';
+		$login_url = '../login/login.php';
         header("Location: $login_url");
     }
 
@@ -11,8 +11,8 @@
     $teamId = $_SESSION['LXMC_TEAM'];
     $sql = "select history.TEAM_ID 
                  , history.ITEM_ID
-                 , history.ITEM_USE_RESULT
-                 , item.ITEM_NAME
+			     , history.ITEM_USE_RESULT
+				 , item.ITEM_NAME
               from ITEM_USE_HISTORY history
                 inner join ITEM item on item.ITEM_ID = history.ITEM_ID
              where history.TEAM_ID = $teamId";
@@ -22,7 +22,7 @@
     foreach($result as $row){
         $team_id = intval($row['TEAM_ID']);
         $item_id = intval($row['ITEM_ID']);
-        $item_name = $row['ITEM_NAME'];
+		$item_name = $row['ITEM_NAME'];
         $item_use_result = intval($row['ITEM_USE_RESULT']);
 
         $deal_id_arr = [];

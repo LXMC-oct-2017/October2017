@@ -12,6 +12,7 @@
   <link rel="stylesheet" type="text/css" href="css/common.css">
   <link rel="stylesheet" type="text/css" href="css/home.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./js/LxmcApi.js"></script>
 </head>
 <body>
   <div id="item-use-history">
@@ -41,13 +42,8 @@
     });
 
     let getItemUseHistory = function(teamId){
-        $.ajax({
-            type: "GET",
-            url: "./api/item-use-history.php",
-            dataType: "json",
-            success: showJson,
-            error: function( data ){console.log(data.responseText);},
-        });
+        let lxmcApi = new LxmcApi('./api/item-use-history.php');
+        lxmcApi.callApi(showJson);
     }
     
     let createTable = function(){

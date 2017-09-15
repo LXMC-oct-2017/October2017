@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>lxmc home</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./LxmcApi.js"></script>
+</head>
+<body>
+<script>
+	let lxmcApi = new LxmcApi('../api/item-use-history.php');
+	let result = lxmcApi.callApi();
+	result.done(function(data){console.log(data);});
+</script>
+</body>
+</html>

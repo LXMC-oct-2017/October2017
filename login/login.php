@@ -1,8 +1,8 @@
 <?php
-    session_start();
-    if( isset($_SESSION['LXMC_TEAM']) ){
-        unset($_SESSION['LXMC_TEAM']);
-    }
+	session_start();
+	if( isset($_SESSION['LXMC_TEAM']) ){
+		unset($_SESSION['LXMC_TEAM']);
+	}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -49,7 +49,7 @@
         $('input[name="password-submit"]').click( function(){
             let result = validate();
             if(result.code != ValidatoinResult.SUCCESS){
-                $('#err').empty();
+				$('#err').empty();
                 let errMsg = $('<p></p>').attr('id', 'err-msg').appendTo($('#err'));
                 errMsg.text(result.msg);
                 return false;

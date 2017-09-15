@@ -29,8 +29,8 @@
      */
     function login(){
         $_SESSION['LXMC_TEAM'] = $_GET['team-id'];
-        $top_url = '../index.php';
-        header("Location: $top_url");
+		$top_url = '../index.php';
+		header("Location: $top_url");
     }
 
     /**
@@ -38,6 +38,7 @@
      *  redirect to login page with parameter 'result=failed'
      */
     function loginFail(){
+        $url = 'login.php?result=failed';
         header("Location: {$url}");
         exit;
     }

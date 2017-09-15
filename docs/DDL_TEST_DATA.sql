@@ -62,8 +62,3 @@ insert into ITEM_USE(DEAL_ID, ITEM_USE_HISTORY_ID)
                    ,(100010, 3)
                    ,(100002, 4)
 ;
-
-alter table ITEM add ITEM_NAME varchar(32) not null;
-
-update ITEM set ITEM_NAME = 'アイテム1' where ITEM_ID = 0;
-update ITEM set ITEM_NAME = 'アイテム2' where ITEM_ID = 1;
