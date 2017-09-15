@@ -1,9 +1,13 @@
-
 <?php
+    session_start();
+    if( unset($_SESSION['LXMC_TEAM']) ){
+        // not logged in
+        header("Location: loing.php");
+    }
 
-    require_once 'database/Database.php';
-    $database = new Database();
-    $teamId = $_GET['teamId'];
+    require_once 'database/database.php';
+    $database = Database::connect();
+    $teamId = $_SESSION['LXMC_TEAM'];
     $sql = "select * 
               from ITEM_USE_HISTORY history
              where history.TEAM_ID = $teamId";
@@ -28,4 +32,3 @@
     echo json_encode($json);
 
 ?>
-
