@@ -81,11 +81,11 @@
 		createTable();
 		json.forEach( function(data){
 			let teamId = data.teamId;
-			let itemId = data.itemId;
+			let itemName = data.itemName;
 			let dealIds = data.dealIds;
 			let itemUseResult = data.itemUseResult;
 			let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-			tr.append('<td>'+itemId+'</td>');
+			tr.append('<td>'+itemName+'</td>');
 			tr.append('<td>'+dealIds+'</td>');
 			tr.append('<td>'+itemUseResult+'</td>');
 		});
