@@ -1,5 +1,5 @@
 <?php
-    require './database/database.php';
+    require 'database/database.php';
     $deal_id = $_GET['deal-id'];
     $db = Database::connect();
     $sql = "select deal.DEAL_ID

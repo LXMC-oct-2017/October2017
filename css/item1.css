@@ -1,3 +1,15 @@
 .message {
 
 }
+
+.deal {
+  height: 20px;
+}
+
+#input [name="checked"] {
+  display: block;
+  width: 100px;
+  height: 20px;
+  color: black !important;
+  font-size: 20px;
+}

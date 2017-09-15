@@ -1,6 +1,8 @@
 <html>
 <head>
+  <meta charset="utf-8">
   <title>lxmc item1Result</title>
+  <meta name="viewport" content="width=380px">
   <link rel="stylesheet" type="text/css" href="css/common.css">
   <link rel="stylesheet" type="text/css" href="css/home.css">
 </head>

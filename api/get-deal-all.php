@@ -4,8 +4,8 @@
         http_response_code(403);
         exit;
     }
-    
-    require_once './database/database.php';
+
+    require_once 'database/database.php';
     $db = Database::connect();
     $deal_list = $db->query('select * from DEAL');
     $json = [];
