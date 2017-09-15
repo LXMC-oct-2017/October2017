@@ -22,28 +22,31 @@
   <div id="header">
     <img src="img/luxa_header.png" width="100%"/>
   </div>
-＜？php
- require '../api/database/Database.php';
- $db = Database::create();
- $team_id = 2; //暫定id
- $sql = 'SELECT.history.item_id, history.item_use_result FROM item_use_history AS 'history' WHERE team_id = :team_id;'; //Query
- $history = $db -> prepare($sql);
- $history -> bindParam(':item_id, $team_id);
- $history -> execute();
+  <?php
+    require './api/database/Database.php';
+    $db = Database::connect();
+    $team_id = 4; //暫定id
+    $sql = 'SELECT item_id FROM item_use_history WHERE team_id = :team_id;'; //Query
+    $history = $db -> prepare($sql);
+    $history -> bindParam(':team_id', $team_id);
+    $history -> execute();
 
- if (empty(fetchAll(PDO::FETCH_COLUMN, 'ITEM_ID'))) {
-  echo '<div class="message">
-          <p>アイテム1は使用済みです</p>
-         </div>';
- } else {
-  echo '<div class="link">
-         <a href="item1.php">アイテム１</a>
-        </div>';
- }
-?>
-  <div class="link">
-    <a href="item2.php">アイテム２</a>
-  </div>
+    $item_use_ids = $history -> fetchAll(PDO::FETCH_COLUMN, 'item_id');
+    if (empty($item_use_ids)) {
+      $item_no = 0; // アイテム1
+      if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
+        echo '<div class="link"><a href="item1.php">アイテム１</a></div>';
+      } else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
+        echo '<div class="link"><a href="item2.php">アイテム２</a></div>';
+      } else {
+        echo '<div class="link"><a href="item1.php">アイテム１</a></div>';
+        echo '<div class="link"><a href="item2.php">アイテム２</a></div>';
+      }
+    } else {
+      echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
+      echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
+    }
+ ?>
   <div class="link">
     <a href="answer.php">回答する</a>
   </div>

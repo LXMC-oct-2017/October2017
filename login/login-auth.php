@@ -38,7 +38,7 @@
      *  redirect to login page with parameter 'result=failed'
      */
     function loginFail(){
-        header("Location: {$url}");
+        header("Location: $url");
         exit;
     }
 ?>
