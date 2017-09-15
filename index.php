@@ -1,8 +1,8 @@
 <?php
     session_start();
     if( !isset($_SESSION['LXMC_TEAM']) ){
-		$login_url = './login/login.php';
-		header("Location: $login_url");
+        $login_url = './login/login.php';
+        header("Location: $login_url");
         exit;
     }
 ?>
@@ -15,8 +15,8 @@
 </head>
 <body>
   <div id="item-use-history">
-	<table id="item-use-history-table">
-	</table>
+    <table id="item-use-history-table">
+    </table>
   </div>
 
   <div id="header">
@@ -52,53 +52,53 @@
   </div>
 
   <script type="text/javascript">
-	$('body').ready(function(){
-		getItemUseHistory();
-	});
+    $('body').ready(function(){
+        getItemUseHistory();
+    });
 
-	let getItemUseHistory = function(teamId){
-		$.ajax({
-			type: "GET",
-			url: "./api/item-use-history.php",
-			dataType: "json",
-			success: showJson,
-			error: function( data ){console.log(data.responseText);},
-		});
-	}
+    let getItemUseHistory = function(teamId){
+        $.ajax({
+            type: "GET",
+            url: "./api/item-use-history.php",
+            dataType: "json",
+            success: showJson,
+            error: function( data ){console.log(data.responseText);},
+        });
+    }
 
-	let createTable = function(){
-		let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
-		let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-		tr.append('<th>アイテム</th>');
-		tr.append('<th>ディールID</th>');
-		tr.append('<th>ITEM_USE_RESULT</th>');
-	}
+    let createTable = function(){
+        let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
+        let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+        tr.append('<th>アイテム</th>');
+        tr.append('<th>ディールID</th>');
+        tr.append('<th>ITEM_USE_RESULT</th>');
+    }
 
-	let showJson = function(json){
-		if(json.length == 0 ){
-			return;
-		}
-		createTable();
-		json.forEach( function(data){
-			let teamId = data.teamId;
-			let itemName = data.itemName;
-			let dealIds = data.dealIds;
-			let itemUseResult = data.itemUseResult;
-			let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-			tr.append('<td>'+itemName+'</td>');
-			tr.append('<td>'+dealIds+'</td>');
-			tr.append('<td>'+itemUseResult+'</td>');
-		});
-	}
+    let showJson = function(json){
+        if(json.length == 0 ){
+            return;
+        }
+        createTable();
+        json.forEach( function(data){
+            let teamId = data.teamId;
+            let itemName = data.itemName;
+            let dealIds = data.dealIds;
+            let itemUseResult = data.itemUseResult;
+            let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+            tr.append('<td>'+itemName+'</td>');
+            tr.append('<td>'+dealIds+'</td>');
+            tr.append('<td>'+itemUseResult+'</td>');
+        });
+    }
 
-	let cleanTable = function(){
-		$('#item-use-history-table').empty();
-		let tr = $("<tr></tr>").appendTo($('#item-use-history-table'));
-		tr.append('<th>TEAM_ID</th>');
-		tr.append('<th>ITEM_ID</th>');
-		tr.append('<th>DEAL_ID_LIST</th>');
-		tr.append('<th>ITEM_USE_RESULT</th>');
-	}
+    let cleanTable = function(){
+        $('#item-use-history-table').empty();
+        let tr = $("<tr></tr>").appendTo($('#item-use-history-table'));
+        tr.append('<th>TEAM_ID</th>');
+        tr.append('<th>ITEM_ID</th>');
+        tr.append('<th>DEAL_ID_LIST</th>');
+        tr.append('<th>ITEM_USE_RESULT</th>');
+    }
   </script>
 </body>
 </html>
