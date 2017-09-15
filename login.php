@@ -8,8 +8,13 @@
 </head>
 <body>
 	<div id="err">
+		<?php
+			if( isset($_GET['result']) && $_GET['result'] == 'failed' ){
+				echo "<p><b>ログインに失敗しました<b></p>";
+			}
+		?>
 	</div>
-	<form id="password-form" method="GET" action="login.php">
+	<form id="password-form" method="GET" action="login-auth.php">
 		<select name="team-id">
 			<option value= "0">TEAM 01</option>
 			<option value= "1">TEAM 02</option>
