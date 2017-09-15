@@ -56,23 +56,23 @@
         getItemUseHistory();
     });
 
-    let getItemUseHistory = function(teamId){
-        $.ajax({
-            type: "GET",
-            url: "./api/item-use-history.php",
-            dataType: "json",
-            success: showJson,
-            error: function( data ){console.log(data.responseText);},
-        });
-    }
+	let getItemUseHistory = function(teamId){
+		$.ajax({
+			type: "GET",
+			url: "./api/item-use-history.php",
+			dataType: "json",
+			success: showJson,
+			error: function( data ){console.log(data.responseText);},
+		});
+	}
 
-    let createTable = function(){
-        let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
-        let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-        tr.append('<th>アイテム</th>');
-        tr.append('<th>ディールID</th>');
-        tr.append('<th>ITEM_USE_RESULT</th>');
-    }
+	let createTable = function(){
+		let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
+		let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+		tr.append('<th>アイテム</th>');
+		tr.append('<th>ディールID</th>');
+		tr.append('<th>ITEM_USE_RESULT</th>');
+	}
 
     let showJson = function(json){
         if(json.length == 0 ){

@@ -1,10 +1,10 @@
 <?php
     session_start();
-    
+
     $team_id = $_GET['team-id'];
     $passwd_hash = hash('md5', $_GET['password']);
     $correct_pw = selectCorrectPassword($team_id);
-    
+
     if(in_array($passwd_hash, $correct_pw)){
         //  loggin succeeded
         login();
@@ -17,7 +17,7 @@
      *  select password
      */
     function selectCorrectPassword($team_id){
-        require '../api/database/database.php';
+        require '../api/database/Database.php';
         $db = Database::connect();
         $stmt = $db->query("select PASSWORD from TEAM where TEAM_ID = $team_id");
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 'PASSWORD');
