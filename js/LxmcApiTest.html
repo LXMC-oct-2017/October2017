@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>lxmc home</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./LxmcApi.js"></script>
+</head>
+<body>
+<script>
+    let lxmcApi = new LxmcApi();
+    let apiUrl = '../api/get-item-use-history.php';
+    let result = lxmcApi.callApi(apiUrl, function(data){console.log(data);});
+    lxmcApi.callGetItemUseHistory(function(historyList){
+        console.log(historyList);
+        console.log('itemUseHistory: ');
+        console.log('========================');
+        for( let history of historyList ){
+            console.log('TEAM_ID: ' + history.teamId);
+            console.log('ITEM_ID: ' + history.itemName);
+            console.log('DEAL_ID: ' + history.dealIdList);
+            console.log('========================');
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,10 +1,25 @@
+<?php
+    session_start();
+    if( !isset($_SESSION['LXMC_TEAM']) ){
+        $login_url = './login/login.php';
+        header("Location: $login_url");
+        exit;
+    }
+?>
 <html>
 <head>
   <title>lxmc home</title>
   <link rel="stylesheet" type="text/css" href="css/common.css">
   <link rel="stylesheet" type="text/css" href="css/home.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="./js/LxmcApi.js"></script>
 </head>
 <body>
+  <div id="item-use-history">
+    <table id="item-use-history-table">
+    </table>
+  </div>
+
   <div id="header">
     <img src="img/luxa_header.png" width="100%"/>
   </div>
@@ -20,5 +35,50 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
+
+  <script type="text/javascript">
+    $('body').ready(function(){
+        getItemUseHistory();
+    });
+
+    let getItemUseHistory = function(teamId){
+        let lxmcApi = new LxmcApi('./api/item-use-history.php');
+        lxmcApi.callApi(showJson);
+    }
+    
+    let createTable = function(){
+        let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
+        let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+        tr.append('<th>アイテム</th>');
+        tr.append('<th>ディールID</th>');
+        tr.append('<th>ITEM_USE_RESULT</th>');
+    }
+
+    let showJson = function(json){
+        if(json.length == 0 ){
+            return;
+        }
+        createTable();
+        json.forEach( function(data){
+            let teamId = data.teamId;
+            let itemName = data.itemName;
+            let dealIds = data.dealIds;
+            let itemUseResult = data.itemUseResult;
+            let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+            tr.append('<td>'+itemName+'</td>');
+            tr.append('<td>'+dealIds+'</td>');
+            tr.append('<td>'+itemUseResult+'</td>');
+        });
+    }
+
+    let cleanTable = function(){
+        $('#item-use-history-table').empty();
+        let tr = $("<tr></tr>").appendTo($('#item-use-history-table'));
+        tr.append('<th>TEAM_ID</th>');
+        tr.append('<th>ITEM_ID</th>');
+        tr.append('<th>DEAL_ID_LIST</th>');
+        tr.append('<th>ITEM_USE_RESULT</th>');
+    }
+  </script>
 </body>
 </html>

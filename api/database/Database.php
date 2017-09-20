@@ -5,18 +5,15 @@ class Database{
 	const CONFIG = array('user'=>'root', 'passwd'=>'');
 
 	const DSN = 'mysql:dbname=lxmcdb;host=localhost';
-	private $pdo = null;
-	public function __construct(){
+
+	public static function connect(){
 		try{
-			$this->pdo = new PDO( Database::DSN, Database::CONFIG['user'], Database::CONFIG['passwd']);
+			$pdo = new PDO( Database::DSN, Database::CONFIG['user'], Database::CONFIG['passwd']);
+			return $pdo;
 		}catch(PDOException $e){
 			echo "connection error";
 			echo $e;
 		}
-	}
-
-	public function query( $statment ){
-		return $this->pdo->query( $statment );
 	}
 }
 
