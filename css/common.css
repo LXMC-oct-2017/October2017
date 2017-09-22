@@ -19,6 +19,10 @@ body {
   font-size: 1.4rem;
 }
 
+a {
+  text-decoration: none;
+}
+
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -49,11 +53,10 @@ input {
   width: 100%;
 }
 
-.link {
-  width: 200px;
-  margin: 0 auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
+#contents-inner {
+  padding-top: 80px;
+  padding-right: 60px;
+  padding-bottom: 80px;
+  padding-left: 60px;
 }
 >>>>>>> modify login.php design
