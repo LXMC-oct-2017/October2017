@@ -49,9 +49,7 @@
         echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
       }
     ?>
-    <div class="link">
-      <a href="answer.php">回答する</a>
-    </div>
+    <a href="answer.php" class="link answer">回答する</a>
   </div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
