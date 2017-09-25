@@ -1,0 +1,26 @@
+select[name="team-id"] {
+  line-height: 60px;
+  width: 100%;
+  overflow: hidden;
+  display: inline-block;
+  *display: inline;
+　*zoom: 1;
+　border-radius: 0.5em;
+　border: 3px solid rgba(0, 0, 0, 0.4);
+　box-shadow: 0 2px 0 #AAA;
+　background-color: rgba(192, 192, 192, 0.1);
+}
+
+input[name="password"] {
+  line-height: 60px;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+input[name="password-submit"] {
+  -webkit-appearance:none;
+  line-height: 60px;
+  width: 100%;
+  border-radius: 0.5em;
+}
