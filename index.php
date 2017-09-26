@@ -10,8 +10,9 @@
 <head>
   <meta charset="utf-8">
   <title>lxmc home</title>
+  <meta name="viewport" content="width=380px">
   <link rel="stylesheet" type="text/css" href="css/common.css">
-  <link rel="stylesheet" type="text/css" href="css/home.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
@@ -19,37 +20,36 @@
     <table id="item-use-history-table">
     </table>
   </div>
-
   <div id="header">
     <img src="img/luxa_header.png" width="100%"/>
   </div>
-  <?php
-    require './api/database/Database.php';
-    $db = Database::connect();
-    $team_id = 4; //暫定id
-    $sql = 'SELECT item_id FROM item_use_history WHERE team_id = :team_id;'; //Query
-    $history = $db -> prepare($sql);
-    $history -> bindParam(':team_id', $team_id);
-    $history -> execute();
+  <div id="contents-inner">
+    <?php
+      require './api/database/Database.php';
+      $db = Database::connect();
+      $team_id = 4; //暫定id
+      $sql = 'SELECT item_id FROM item_use_history WHERE team_id = :team_id;'; //Query
+      $history = $db -> prepare($sql);
+      $history -> bindParam(':team_id', $team_id);
+      $history -> execute();
 
-    $item_use_ids = $history -> fetchAll(PDO::FETCH_COLUMN, 'item_id');
-    if (empty($item_use_ids)) {
-      $item_no = 0; // アイテム1
-      if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
-        echo '<div class="link"><a href="item1.php">アイテム１</a></div>';
-      } else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
-        echo '<div class="link"><a href="item2.php">アイテム２</a></div>';
+      $item_use_ids = $history -> fetchAll(PDO::FETCH_COLUMN, 'item_id');
+      if (empty($item_use_ids)) {
+        $item_no = 0; // アイテム1
+        if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
+          echo '<a href="item1.php" class="link">アイテム１</a>';
+        } else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
+          echo '<a href="item2.php" class="link">アイテム２</a>';
+        } else {
+          echo '<a href="item1.php" class="link">アイテム１</a>';
+          echo '<a href="item2.php" class="link">アイテム２</a>';
+        }
       } else {
-        echo '<div class="link"><a href="item1.php">アイテム１</a></div>';
-        echo '<div class="link"><a href="item2.php">アイテム２</a></div>';
+        echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
+        echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
       }
-    } else {
-      echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
-      echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
-    }
- ?>
-  <div class="link">
-    <a href="answer.php">回答する</a>
+    ?>
+    <a href="answer.php" class="link answer">回答する</a>
   </div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
@@ -60,23 +60,23 @@
         getItemUseHistory();
     });
 
-	let getItemUseHistory = function(teamId){
-		$.ajax({
-			type: "GET",
-			url: "./api/item-use-history.php",
-			dataType: "json",
-			success: showJson,
-			error: function( data ){console.log(data.responseText);},
-		});
-	}
+    let getItemUseHistory = function(teamId){
+        $.ajax({
+            type: "GET",
+            url: "./api/item-use-history.php",
+            dataType: "json",
+            success: showJson,
+            error: function( data ){console.log(data.responseText);},
+        });
+    }
 
-	let createTable = function(){
-		let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
-		let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-		tr.append('<th>アイテム</th>');
-		tr.append('<th>ディールID</th>');
-		tr.append('<th>ITEM_USE_RESULT</th>');
-	}
+    let createTable = function(){
+        let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
+        let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
+        tr.append('<th>アイテム</th>');
+        tr.append('<th>ディールID</th>');
+        tr.append('<th>ITEM_USE_RESULT</th>');
+    }
 
     let showJson = function(json){
         if(json.length == 0 ){
