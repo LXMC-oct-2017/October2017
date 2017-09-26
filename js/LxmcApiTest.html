@@ -6,20 +6,20 @@
 </head>
 <body>
 <script>
-    let lxmcApi = new LxmcApi();
-    let apiUrl = '../api/get-item-use-history.php';
-    let result = lxmcApi.callApi(apiUrl, function(data){console.log(data);});
-    lxmcApi.callGetItemUseHistory(function(historyList){
-        console.log(historyList);
-        console.log('itemUseHistory: ');
-        console.log('========================');
-        for( let history of historyList ){
-            console.log('TEAM_ID: ' + history.teamId);
-            console.log('ITEM_ID: ' + history.itemName);
-            console.log('DEAL_ID: ' + history.dealIdList);
-            console.log('========================');
-        }
-    });
+	let lxmcApi = new LxmcApi();
+	let apiUrl = '../api/get-item-use-history.php';
+	let result = lxmcApi.callApi(apiUrl, function(data){console.log(data);});
+	lxmcApi.callGetItemUseHistory(function(historyList){
+		console.log(historyList);
+		console.log('itemUseHistory: ');
+		console.log('========================');
+		for( let history of historyList ){
+			console.log('TEAM_ID: ' + history.teamId);
+			console.log('ITEM_ID: ' + history.itemName);
+			console.log('DEAL_ID: ' + history.dealIdList);
+			console.log('========================');
+		}
+	});
 </script>
 </body>
 </html>
