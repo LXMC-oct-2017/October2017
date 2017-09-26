@@ -1,3 +1,4 @@
+<<<<<<< 83a7f360424b8ece56e953193ab23891eaea951c
 div {
   font-size: 20px;
 }
@@ -9,3 +10,48 @@ div {
   padding-bottom: 10px;
   text-align: center;
 }
+=======
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.4rem;
+}
+
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#header {
+  height: 10vh;
+}
+
+#header img {
+  height: 100%;
+}
+
+#footer {
+  height: 10vh;
+}
+
+#footer img {
+  height: 10vh;
+}
+
+.link {
+  width: 200px;
+  margin: 0 auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+>>>>>>> modify login.php design
