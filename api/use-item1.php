@@ -17,8 +17,8 @@
 
         $json = array('dealId'=>$deal_id, 'price'=>$use_result);
         $insert_sql = 'insert into ITEM_USE_HISTORY(ITEM_USE_HISTORY_ID, TEAM_ID, ITEM_ID, USE_RESULT) ';
-        $insert_value = "value($item_use_history_id, $team_id, $item_id, $use_result)";
-        $db->query($insert_sql.$insert_value);
+		$insert_value = "value($item_use_history_id, $team_id, $item_id, $use_result)";
+		$db->query($insert_sql.$insert_value);
     }
 
     header('content-type: application/json; charset=utf-8');
