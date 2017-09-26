@@ -1,0 +1,27 @@
+.link {
+  display: inline-block;
+  width: 203px;
+  line-height:  60%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 20px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  text-align: center;
+  color: #FFF;
+  background-image: -webkit-linear-gradient(bottom left, #FFC107 0%, #ff8b5f 100%);
+  background-image: -o-linear-gradient(bottom left, #FFC107 0%, #ff8b5f 100%);
+  background-image: linear-gradient(to top right, #FFC107 0%, #ff8b5f 100%);
+  transition: .4s;
+}
+
+.link:hover {
+  background-image: -webkit-linear-gradient(45deg, #FFC107 0%, #f76a35 100%);
+  background-image: linear-gradient(45deg, #FFC107 0%, #f76a35 100%);
+}
+
+.answer {
+  background-image: -webkit-linear-gradient(bottom left, #87cefa 0%, #6495ed 100%);
+  background-image: -o-linear-gradient(bottom left, #87cefa 0%, #6495ed 100%);
+  background-image: linear-gradient(to top right, #87cefa 0%, #6495ed 100%);
+}

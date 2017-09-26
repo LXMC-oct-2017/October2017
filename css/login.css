@@ -1,0 +1,48 @@
+#select {
+  text-align: center;
+}
+
+select[name="team-id"] {
+  line-height: 40px;
+  width: 203px;
+  overflow: hidden;
+  display: inline-block;
+  *display: inline;
+　*zoom: 1;
+　border-radius: 0.5em;
+　border: 3px solid rgba(0, 0, 0, 0.4);
+　box-shadow: 0 2px 0 #AAA;
+　background-color: rgba(192, 192, 192, 0.1);
+  border-radius: 5px;
+}
+
+#password {
+  text-align: center;
+}
+
+input[name="password"] {
+  line-height: 40px;
+  width: 203px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+}
+
+#button {
+  text-align: center;
+}
+
+input[name="password-submit"] {
+  display: inline-block;
+  width: 203px;
+  line-height:  60%;
+  padding: 20px 20px;
+  border-radius: 25px;
+  border-color: #FFF;
+  text-decoration: none;
+  text-align: center;
+  color: #FFF;
+  background-image: -webkit-linear-gradient(bottom left, #87cefa 0%, #6495ed 100%);
+  background-image: -o-linear-gradient(bottom left, #87cefa 0%, #6495ed 100%);
+  background-image: linear-gradient(to top right, #87cefa 0%, #6495ed 100%);
+}
