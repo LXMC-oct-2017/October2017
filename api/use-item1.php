@@ -7,7 +7,7 @@
     require_once './database/database.php';
     require_once './item-use-history.php';
 
-    $deal_id = $_GET['deal-id'];
+    $deal_id = $_GET['dealId'];
     $db = Database::connect();
     $sql = "select deal.DEAL_ID
                  , deal.DEAL_TITLE

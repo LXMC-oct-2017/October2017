@@ -26,9 +26,8 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
-</body>
-</html>
-<script>
+  
+  <script>
 $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
@@ -57,6 +56,7 @@ $('.switch').click(function() {
       };
 
 	  let api = new LxmcApi();
+	  api.errorHandler = function(data){console.log(data);};
 	  api.callApi('api/get-deal-all.php', onSucceeded );
   }
 });
@@ -75,3 +75,7 @@ $('.submit').click(function() {
   api.callApi('api/use-item1.php', function(data){console.log(data);});
 });
 </script>
+  
+</body>
+</html>
+
