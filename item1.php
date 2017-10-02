@@ -39,8 +39,8 @@ $('.switch').click(function() {
 
         json.forEach(function(val, key) {
           var $checkbox = $('<input></input>', {
-            name: "checked",
-            type: "checkbox",
+            name: "radio-group",
+            type: "radio",
             value: json[key].dealId,
           });
 
@@ -55,18 +55,16 @@ $('.switch').click(function() {
         });
         $('.submit').before(list);
       };
-	  
+
 	  let api = new LxmcApi();
 	  api.callApi('api/get-deal-all.php', onSucceeded );
   }
 });
 
 $('.submit').click(function() {
-  deals = $('[name="checked"]:checked').map(function() {
-    return $(this).val();
-  }).get();
+  deal = $('[name="radio-group"]:checked').val();
+  console.log(deal);
 
-  //TODO 複数選択時のエラーハンドリング
   let api = new LxmcApi();
   api.data = {'dealId': 100000};
   api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
