@@ -33,11 +33,7 @@ $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
   } else {
-    $.ajax({
-      type: 'GET',
-      url: 'api/get-deal-all.php',
-      dataType: 'json',
-      success: function(json) {
+	  let onSucceeded = function(json) {
         var list = document.createElement('div');
         list.className = 'deals';
 
@@ -58,10 +54,10 @@ $('.switch').click(function() {
           list.appendChild($deal[0]);
         });
         $('.submit').before(list);
-      },error: function() {
-        alert("ディールを取得できませんでした");
-      }
-    });
+      };
+	  
+	  let api = new LxmcApi();
+	  api.callApi('api/get-deal-all.php', onSucceeded );
   }
 });
 
@@ -71,23 +67,13 @@ $('.submit').click(function() {
   }).get();
 
   //TODO 複数選択時のエラーハンドリング
-
-  $.ajax({
-    type: 'GET',
-    url: 'api/use-item1.php?dealId=100000',
-    data: {
-      dealId: deals
-    },
-    dataType: 'json',
-    success: function(json) {
-        window.location.href = "item1Result.php";
-      },
-    // error: function(XMLHttpRequest, textStatus, errorThrown) {
-    //     console.log(XMLHttpRequest.status);
-    //     console.log(textStatus);
-    //     console.log(errorThrown.message);
-    //   }
-    error : function(data){console.log(data);}
-  });
+  let api = new LxmcApi();
+  api.data = {'dealId': 100000};
+  api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
+	console.log(XMLHttpRequest.status);
+	console.log(textStatus);
+	console.log(errorThrown.message);
+  }
+  api.callApi('api/use-item1.php', function(data){console.log(data);});
 });
 </script>

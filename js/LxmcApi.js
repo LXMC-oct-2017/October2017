@@ -4,7 +4,7 @@ var LxmcApi = function(){
     this.dataType = 'json';
     this.data = null;
     this.successHandler = function(data){};
-    this.errorHandler = this.defailtErrorHandler;
+    this.errorHandler = this.defeaultErrorHandler;
     this.doneHandler = function(data){};
 }
 

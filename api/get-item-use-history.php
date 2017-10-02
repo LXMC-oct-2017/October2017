@@ -1,8 +1,7 @@
 <?php
     session_start();
     if( !isset($_SESSION['LXMC_TEAM']) ){
-        header('content-type: application/json; charset=utf-8');
-        echo json_encode([]);
+		http_response_code(403);
         exit;
     }
     require_once './item-use-history.php';

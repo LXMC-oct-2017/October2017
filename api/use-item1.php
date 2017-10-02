@@ -1,7 +1,13 @@
 <?php
-  session_start();
-    require 'database/database.php';
-    $deal_id = $_GET['dealId'];
+    session_start();
+    if( !isset($_SESSION['LXMC_TEAM']) ){
+        http_response_code(403);
+        exit;
+    }
+    require_once './database/database.php';
+    require_once './item-use-history.php';
+
+    $deal_id = $_GET['deal-id'];
     $db = Database::connect();
     $sql = "select deal.DEAL_ID
                  , deal.DEAL_TITLE
@@ -14,12 +20,12 @@
         $use_result = $row['DEAL_PRICE'];
         $team_id = $_SESSION['LXMC_TEAM'];
         $item_id = 0; // ITEM_ID of 'Item 1' is 0
-        $item_use_history_id = $team_id.'-'.$item_id;
+        $item_use_history_id = "'{$item_id}-{$team_id}'";
 
         $json = array('dealId'=>$deal_id, 'price'=>$use_result);
-        $insert_sql = 'insert into ITEM_USE_HISTORY(ITEM_USE_HISTORY_ID, TEAM_ID, ITEM_ID, USE_RESULT) ';
-		$insert_value = "value($item_use_history_id, $team_id, $item_id, $use_result)";
-		$db->query($insert_sql.$insert_value);
+        
+        $itemUseHistory = new ItemUseHistory();
+        $itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
     }
 
     header('content-type: application/json; charset=utf-8');

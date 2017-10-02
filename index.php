@@ -25,29 +25,24 @@
   </div>
   <div id="contents-inner">
     <?php
-      require './api/database/Database.php';
-      $db = Database::connect();
-      $team_id = 4; //暫定id
-      $sql = 'SELECT item_id FROM item_use_history WHERE team_id = :team_id;'; //Query
-      $history = $db -> prepare($sql);
-      $history -> bindParam(':team_id', $team_id);
-      $history -> execute();
-
-      $item_use_ids = $history -> fetchAll(PDO::FETCH_COLUMN, 'item_id');
-      if (empty($item_use_ids)) {
-        $item_no = 0; // アイテム1
-        if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
-          echo '<a href="item1.php" class="link">アイテム１</a>';
-        } else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
-          echo '<a href="item2.php" class="link">アイテム２</a>';
-        } else {
-          echo '<a href="item1.php" class="link">アイテム１</a>';
-          echo '<a href="item2.php" class="link">アイテム２</a>';
-        }
-      } else {
-        echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
-        echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
-      }
+		$team_id = 3; //暫定id
+		require_once './api/item-use-history.php'
+		$hist = new ItemUseHistory();
+		$useHistory = json_decode($hist->getHistory($team_id));
+		if (empty($useHistory)) {
+			$item_no = 0; // アイテム1
+			if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
+			  echo '<a href="item1.php" class="link">アイテム１</a>';
+			} else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
+			  echo '<a href="item2.php" class="link">アイテム２</a>';
+			} else {
+			  echo '<a href="item1.php" class="link">アイテム１</a>';
+			  echo '<a href="item2.php" class="link">アイテム２</a>';
+			}
+		} else {
+			echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
+			echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
+		}
     ?>
     <a href="answer.php" class="link answer">回答する</a>
   </div>
@@ -63,7 +58,7 @@
     let getItemUseHistory = function(teamId){
         $.ajax({
             type: "GET",
-            url: "./api/item-use-history.php",
+            url: "./api/get-item-use-history.php",
             dataType: "json",
             success: showJson,
             error: function( data ){console.log(data.responseText);},
@@ -86,7 +81,7 @@
         json.forEach( function(data){
             let teamId = data.teamId;
             let itemName = data.itemName;
-            let dealIds = data.dealIds;
+            let dealIds = data.dealIdList;
             let itemUseResult = data.itemUseResult;
             let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
             tr.append('<td>'+itemName+'</td>');
