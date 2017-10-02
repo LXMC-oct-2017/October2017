@@ -26,7 +26,7 @@
   <div id="contents-inner">
     <?php
 		$team_id = 3; //暫定id
-		require_once './api/item-use-history.php'
+		require_once './api/item-use-history.php';
 		$hist = new ItemUseHistory();
 		$useHistory = json_decode($hist->getHistory($team_id));
 		if (empty($useHistory)) {
