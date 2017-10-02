@@ -74,19 +74,20 @@ $('.submit').click(function() {
 
   $.ajax({
     type: 'GET',
-    url: 'api/use-item1.php',
+    url: 'api/use-item1.php?dealId=100000',
     data: {
-      "deal-id": deals
+      dealId: deals
     },
     dataType: 'json',
     success: function(json) {
         window.location.href = "item1Result.php";
       },
-    error: function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log(XMLHttpRequest.status);
-        console.log(textStatus);
-        console.log(errorThrown.message);
-      }
+    // error: function(XMLHttpRequest, textStatus, errorThrown) {
+    //     console.log(XMLHttpRequest.status);
+    //     console.log(textStatus);
+    //     console.log(errorThrown.message);
+    //   }
+    error : function(data){console.log(data);}
   });
 });
 </script>
