@@ -18,16 +18,14 @@
       選択したディールの金額を公開されます
     　</p>
     </div>
-      <button class="switch">
-        ディール一覧
-      </button>
-      <button class="submit">ディール金額公開</div>
+    <button class="switch">ディール一覧</button>
+    <button class="submit">ディール金額公開</button>
   </div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
-  
-  <script>
+
+<script>
 $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
@@ -37,7 +35,7 @@ $('.switch').click(function() {
         list.className = 'deals';
 
         json.forEach(function(val, key) {
-          var $checkbox = $('<input></input>', {
+          var $radio = $('<input></input>', {
             name: "radio-group",
             type: "radio",
             value: json[key].dealId,
@@ -48,7 +46,7 @@ $('.switch').click(function() {
             html: json[key].dealTitle
           });
 
-          var $deal = $('<div>').addClass('deal').append($checkbox).wrapInner($dealTitle);
+          var $deal = $('<div>').addClass('deal').append($radio).wrapInner($dealTitle);
 
           list.appendChild($deal[0]);
         });
@@ -75,7 +73,6 @@ $('.submit').click(function() {
   api.callApi('api/use-item1.php', function(data){console.log(data);});
 });
 </script>
-  
+
 </body>
 </html>
-
