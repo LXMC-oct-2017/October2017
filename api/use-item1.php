@@ -1,9 +1,10 @@
 <?php
-    require './database/database.php';
-    $deal_id = $_GET['deal-id'];
+  session_start();
+    require 'database/database.php';
+    $deal_id = $_GET['dealId'];
     $db = Database::connect();
     $sql = "select deal.DEAL_ID
-                 , deal.DEAL_NAME
+                 , deal.DEAL_TITLE
                  , deal.DEAL_PRICE
               from DEAL deal
              where deal.DEAL_ID = $deal_id";
@@ -11,7 +12,7 @@
     foreach($deal as $row){
         $deal_id = $row['DEAL_ID'];
         $use_result = $row['DEAL_PRICE'];
-        $team_id = $_SESSION['TEAM_ID'];
+        $team_id = $_SESSION['LXMC_TEAM'];
         $item_id = 0; // ITEM_ID of 'Item 1' is 0
         $item_use_history_id = $team_id.'-'.$item_id;
 

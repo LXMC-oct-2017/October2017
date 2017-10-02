@@ -1,4 +1,4 @@
-<?php   
+<?php
 
 class Database{
     const CONFIG = array('user'=>'root', 'passwd'=>'');

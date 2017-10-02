@@ -38,6 +38,7 @@
      *  redirect to login page with parameter 'result=failed'
      */
     function loginFail(){
+        $url = 'login.php?result=failed';
         header("Location: $url");
         exit;
     }
