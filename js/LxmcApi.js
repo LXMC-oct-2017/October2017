@@ -4,7 +4,7 @@ var LxmcApi = function(){
     this.dataType = 'json';
     this.data = null;
     this.successHandler = function(data){};
-    this.errorHandler = this.defeaultErrorHandler;
+    this.errorHandler = this.defaultErrorHandler;
     this.doneHandler = function(data){};
 }
 
@@ -22,7 +22,7 @@ LxmcApi.prototype.callApi = function(url, doneJsonHandler=function(data){}){
     return res;
 }
 
-LxmcApi.prototype.defeaultErrorHandler = function( data ){
+LxmcApi.prototype.defaultErrorHandler = function( data ){
     console.log( data.responseText );
 }
 
