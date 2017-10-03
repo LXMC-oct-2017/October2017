@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=380px">
   <title>lxmc answer</title>
   <link rel="stylesheet" type="text/css" href="css/common.css">
-  <link rel="stylesheet" type="text/css" href="css/home.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/LxmcApi.js"></script>
 </head>
@@ -60,17 +59,18 @@ $('.switch').click(function() {
 });
 
 $('.submit').click(function() {
-  deal = $('[name="radio-group"]:checked').val();
-  console.log(deal);
+  var dealId = $('[name="checkbox-group"]:checked').map(function() {
+    return $(this).val();
+  }).get();
 
   let api = new LxmcApi();
-  api.data = {'dealId': 100000};
+  api.data = dealId;
   api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
 	console.log(XMLHttpRequest.status);
 	console.log(textStatus);
 	console.log(errorThrown.message);
   }
-  api.callApi('api/use-item1.php', function(data){console.log(data);});
+  api.callApi('api/answer.php', function(data){console.log(data);});
 });
 </script>
 </body>
