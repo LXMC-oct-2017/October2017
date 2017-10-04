@@ -17,13 +17,14 @@
     $deal = $db->query($sql);
     foreach($deal as $row){
         $deal_id = $row['DEAL_ID'];
+        $deal_title = $row['DEAL_TITLE'];
         $use_result = $row['DEAL_PRICE'];
         $team_id = $_SESSION['LXMC_TEAM'];
         $item_id = 0; // ITEM_ID of 'Item 1' is 0
         $item_use_history_id = "'{$item_id}-{$team_id}'";
 
-        $json = array('dealId'=>$deal_id, 'price'=>$use_result);
-        
+        $json = array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'dealPrice'=>$use_result);
+
         $itemUseHistory = new ItemUseHistory();
         $itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
     }

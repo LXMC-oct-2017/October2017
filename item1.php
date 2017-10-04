@@ -38,46 +38,61 @@ $('.switch').click(function() {
     $(".deals").remove();
   } else {
 	  let onSucceeded = function(json) {
-        var list = document.createElement('div');
-        list.className = 'deals';
+      var list = document.createElement('div');
+      list.className = 'deals';
 
-        json.forEach(function(val, key) {
-          var $radio = $('<input></input>', {
-            name: "radio-group",
-            type: "radio",
-            value: json[key].dealId,
-          });
-
-          var $dealTitle = $('<p></p>', {
-            "class": "deal-title",
-            html: json[key].dealTitle
-          });
-
-          var $deal = $('<div>').addClass('deal').append($radio).wrapInner($dealTitle);
-
-          list.appendChild($deal[0]);
+      json.forEach(function(val, key) {
+        var $radio = $('<input></input>', {
+          name: "radio-group",
+          type: "radio",
+          value: json[key].dealId,
         });
-        $('.submit').before(list);
-      };
+
+        var $dealTitle = $('<p></p>', {
+          "class": "deal-title",
+          html: json[key].dealTitle
+        });
+
+        var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle);
+
+        list.appendChild($deal[0]);
+      });
+      $('.submit').before(list);
+		};
 
 	  let api = new LxmcApi();
 	  api.errorHandler = function(data){console.log(data);};
-	  api.callApi('api/get-deal-all.php', onSucceeded );
+	  api.callApi('api/get-deal-all.php', onSucceeded);
   }
 });
 
 $('.submit').click(function() {
-  deal = $('[name="radio-group"]:checked').val();
-  console.log(deal);
+  dealId = $('[name="radio-group"]:checked').val();
 
-  let api = new LxmcApi();
-  api.data = {'dealId': 100000};
-  api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
-	console.log(XMLHttpRequest.status);
-	console.log(textStatus);
-	console.log(errorThrown.message);
-  }
-  api.callApi('api/use-item1.php', function(data){console.log(data);});
+	 if (dealId === undefined) {
+		 alert("ディールを選択してください！");
+	 } else {
+		 let api = new LxmcApi();
+		 api.data = {'dealId': dealId};
+		 api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
+			 console.log(XMLHttpRequest.status);
+			 console.log(textStatus);
+			 console.log(errorThrown.message);
+		 }
+
+		 let onSucceeded = function(json){
+			 console.log(json['dealTitle']);
+			 $('.deals').remove();
+			 $('p').remove();
+			 $('.switch').remove();
+			 $('.submit').remove();
+			 
+			 $('.message').append('<p>' + json['dealTitle'] + 'の金額は' + json['dealPrice'] + '円です</p>');
+			 $('p').after('<div class="link"><a href="index.php">HOMEへ</a></div>');
+		 }
+
+		 api.callApi('api/use-item1.php', onSucceeded);
+	 }
 });
 </script>
 

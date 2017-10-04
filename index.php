@@ -40,11 +40,11 @@
 		} else {
 			$item_no = 0; // アイテム1
 			if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
-				echo '<a href="item1.php" class="link">アイテム１</a>';
-				echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
+        echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
+        echo '<a href="item2.php" class="link">アイテム２</a>';
 			} else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
-				echo '<a href="item2.php" class="link">アイテム２</a>';
-				echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
+        echo '<a href="item1.php" class="link">アイテム１</a>';
+				echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
 			}else{
 				echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
 				echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
