@@ -87,17 +87,6 @@ $('.submit').click(function() {
 		 }
 
 		 api.callApi('api/use-item2.php', onSucceeded);
-			 /*
-			 $('.message').append('<p>' + json['dealTitle'] + 'の金額は' + json['dealPrice'] + '円です</p>');
-			 $('p').after('<div class="link"><a href="index.php">HOMEへ</a></div>');
-			 */
-/*
-		 }
-		 */
-/*
-		 api.callApi('api/use-item2.php', onSucceeded);
-	 }
-	 */
 });
 </script>
 </body>
