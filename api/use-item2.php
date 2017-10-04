@@ -7,16 +7,16 @@
     require_once './database/database.php';
     require_once './item-use-history.php';
 	require_once './database/query.php';
-	
-	$deal_id_list = $_GET['dealIds'];
+
+	$deal_id_list = $_GET['dealIdList'];
 	$sum = sumDealPrices($deal_id_list);
 	$use_result = roundDiffernce(100000, $sum);
-	
+
 	$history = new ItemUseHistory();
 	$history->insert($_SESSION['LXMC_TEAM'], 1, $deal_id_list, $use_result);
-	
+
 	echo json_encode(array('dealIds'=> $deal_id_list, 'useResult'=>$use_result));
-	
+
     /**
 	 * 配列で渡されたディールの価格の合計を計算する
 	 * @param string deal_id_list ディールIDのリスト $_GET からそのまま渡す
@@ -38,10 +38,10 @@
 		$price_dif = 0;
 		return $sum;
 	}
-	
+
 	/**
 	 * 金額の差分を5000円単位に丸める
-	 * @param int $expect 目標金額 
+	 * @param int $expect 目標金額
 	 * @param int $actual 合計金額
 	 * @return string 差分を5000円単位で丸めた結果のメッセージ
 	 */
