@@ -1,3 +1,10 @@
+<?php
+	session_start();
+	if( !isset($_SESSION['LXMC_TEAM']) ){
+		header('Location: /lxmc/login/login.php');
+		exit;
+	}
+?>
 <html>
 <head>
   <title>lxmc item2Result</title>

@@ -6,48 +6,53 @@
     }
     require_once './database/database.php';
     require_once './item-use-history.php';
-
-    $deal_id = $_GET['deal-id'];
-    echo $deal_id;
-    $db = Database::connect();
-   
-    
-    
-    
-    
-    $itemUseHistory = new ItemUseHistory();
-    $itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
-    $item_id = 0; // ITEM_ID of 'Item 1' is 0
-    $item_use_history_id = "'{$item_id}-{$team_id}'";
-    $use_result = 0;
-    $json = array('dealId'=>$deal_id, 'price'=>$use_result);
-    
-    header('content-type: application/json; charset=utf-8');
-    echo json_encode($json);
-    
-    
-    function sumDealPrices($db, $dealId){
-		 $sql = "select deal.DEAL_ID
-					  , deal.DEAL_TITLE
-				      , deal.DEAL_PRICE
-				   from DEAL deal
-				  where deal.DEAL_ID = $deal_id";
-				  
-        $deal = $db->query($sql);
+	require_once './database/query.php';
+	
+	$deal_id_list = $_GET['dealIds'];
+	$sum = sumDealPrices($deal_id_list);
+	$use_result = roundDiffernce(100000, $sum);
+	
+	$history = new ItemUseHistory();
+	$history->insert($_SESSION['LXMC_TEAM'], 1, $deal_id_list, $use_result);
+	
+	echo json_encode(array('dealIds'=> $deal_id_list, 'useResult'=>$use_result));
+	
+    /**
+	 * 配列で渡されたディールの価格の合計を計算する
+	 * @param string deal_id_list ディールIDのリスト $_GET からそのまま渡す
+	 * @return int 合計金額
+	 */
+    function sumDealPrices($deal_id_list){
+		$db = Database::connect();
+		$sql = "select deal.DEAL_ID
+					 , deal.DEAL_TITLE
+				     , deal.DEAL_PRICE
+				  from DEAL deal
+				 where deal.DEAL_ID ";
+        $deal = $db->query($sql.QueryUtil::whereIn($deal_id_list));
         $sum = 0;
-        $deal_id_list = [];
         foreach($deal as $row){
             $deal_id = $row['DEAL_ID'];
             $sum += $row['DEAL_PRICE'];
-            $team_id = $_SESSION['LXMC_TEAM'];
-            array_push($deal_id_list, $deal_id);
         }
 		$price_dif = 0;
-		return array('dealIdList' => $deal_id_list, 'price' => sum);
+		return $sum;
 	}
 	
-	function clacDiffernce($expect, $actial){
+	/**
+	 * 金額の差分を5000円単位に丸める
+	 * @param int $expect 目標金額 
+	 * @param int $actual 合計金額
+	 * @return string 差分を5000円単位で丸めた結果のメッセージ
+	 */
+	function roundDiffernce($expect, $actual){
+		$result_plus = ['0~4999円','5000~9999円','10000円~14999円','15000円~19999円','20000円以上'];
+		$result_minus = ['0~-4999円','-5000~-9999円','-10000円~-14999円','-15000円~-19999円','-20000円以上'];
 		$diff = $expect - $actual;
-		return $diff;
+		if( $diff == 0 ){
+			return '差分なし';
+		}
+		$index = min(intval(abs($diff)/5000), count($result_plus)-1);
+		return $diff > 0 ? $result_minus[$index] : $result_plus[$index];
 	}
 ?>

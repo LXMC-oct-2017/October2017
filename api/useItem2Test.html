@@ -1,0 +1,15 @@
+<html>
+<head>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="../js/LxmcApi.js"></script>
+</head>
+<body>
+<script>
+	$('body').ready(function(){
+		let api = new LxmcApi();
+		api.data = {'dealIds[]':[100000, 100001]};
+		api.callApi('use-item2.php', function(data){console.log(data);});
+	});
+</script>
+</body>
+</html>

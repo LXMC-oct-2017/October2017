@@ -54,5 +54,9 @@
                 $stmt->execute(array(':deal_id'=>$deal_id));
             }
         }
+		
+		public function existsRecord($team_id, $item_id){
+			
+		}
     }
 ?>
