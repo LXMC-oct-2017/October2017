@@ -1,5 +1,5 @@
 <?php
-	require_once 'database/database.php';
+	require_once dirname(__FILE__).'/database/database.php';
 	
 	class TeamStatus{
 		
@@ -92,12 +92,5 @@
 			$db = Database::connect();
 			$db->query("update TEAM set STATUS = $status where TEAM_ID = $team_id");
 		}
-	}
-	
-	TeamStatus::sendAnswer(0);
-	if( TeamStatus::isUsedItem1(0) ){
-		echo 'item 1 used';
-	}else{
-		echo 'item 1 unused';
 	}
 ?>

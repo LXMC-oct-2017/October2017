@@ -1,22 +1,36 @@
 <?php
-    session_start();
-    if( !isset($_SESSION['LXMC_TEAM']) ){
-        http_response_code(403);
-        exit;
-    }
-    require_once './database/database.php';
-    require_once './item-use-history.php';
-	require_once './database/query.php';
+	require_once dirname(__FILE__).'/auth-util.php';
+	AuthUtil::forbiddenIfNotAuthorized();
+	
+    require_once dirname(__FILE__).'/database/database.php';
+    require_once dirname(__FILE__).'/item-use-history.php';
+	require_once dirname(__FILE__).'/team-status.php';
+	require_once dirname(__FILE__).'/database/query.php';
+	require_once dirname(__FILE__).'/config.php';
+	
+	if( TeamStatus::isUsedItem2($_SESSION['LXMC_TEAM']) ){
+		http_response_code(400);
+		$messages = array('アイテム2はすでに使用済みです');
+		echo json_encode(['messages' => $messages]);
+	}else{
+		useItem();
+	}
+	
+	function useItem(){
+		$config = Config::getInstance()->getConfig('general');
+		$target_money = $config['target_money'];
+		
+		$deal_id_list = $_GET['dealIdList'];
+		$sum = sumDealPrices($deal_id_list);
+		$use_result = roundDiffernce($target_money, $sum);
 
-	$deal_id_list = $_GET['dealIdList'];
-	$sum = sumDealPrices($deal_id_list);
-	$use_result = roundDiffernce(100000, $sum);
+		$history = new ItemUseHistory();
+		$history->insert($_SESSION['LXMC_TEAM'], 1, $deal_id_list, $use_result);
+		TeamStatus::useItem2($_SESSION['LXMC_TEAM']);
 
-	$history = new ItemUseHistory();
-	$history->insert($_SESSION['LXMC_TEAM'], 1, $deal_id_list, $use_result);
-
-	echo json_encode(array('dealIds'=> $deal_id_list, 'useResult'=>$use_result));
-
+		echo json_encode(array('dealIds'=> $deal_id_list, 'useResult'=>$use_result));
+	}
+	
     /**
 	 * 配列で渡されたディールの価格の合計を計算する
 	 * @param string deal_id_list ディールIDのリスト $_GET からそのまま渡す

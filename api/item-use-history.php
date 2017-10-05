@@ -1,5 +1,5 @@
 <?php
-    require_once 'database/database.php';
+    require_once dirname(__FILE__).'/database/database.php';
 
     class ItemUseHistory{
         private $database;
@@ -56,9 +56,5 @@
                 $stmt->execute(array(':deal_id'=>$deal_id));
             }
         }
-
-		public function existsRecord($team_id, $item_id){
-
-		}
     }
 ?>

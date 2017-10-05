@@ -4,7 +4,7 @@
 		http_response_code(403);
         exit;
     }
-    require_once './item-use-history.php';
+    require_once dirname(__FILE__).'/item-use-history.php';
 
     $teamId = $_SESSION['LXMC_TEAM'];
     $itemUseHistory = new ItemUseHistory();

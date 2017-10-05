@@ -4,8 +4,8 @@
 		http_response_code(403);
 		exit;
 	}
-	require_once 'database/database.php';
-	require_once 'database/query.php';
+	require_once dirname(__FILE__).'/database/database.php';
+	require_once dirname(__FILE__).'/database/query.php';
 	
 	$deal_id_str = '';
 	$deal_id_list = [];
