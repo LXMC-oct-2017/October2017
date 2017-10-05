@@ -30,6 +30,15 @@
   </div>
 
 <script>
+$('body').ready(function(){
+		ans = prompt("クイズの答えを入力してください");
+		var dispatch = '';
+		if (ans === '愛'){
+		} else {
+			window.location.href = 'index.php';
+		}
+});
+
 $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
@@ -83,7 +92,7 @@ $('.submit').click(function() {
 			 $('p').remove();
 			 $('.switch').remove();
 			 $('.submit').remove();
-			 
+
 			 $('.message').append('<p>' + json['dealTitle'] + 'の金額は' + json['dealPrice'] + '円です</p>');
 			 $('p').after('<div class="link"><a href="index.php">HOMEへ</a></div>');
 		 }

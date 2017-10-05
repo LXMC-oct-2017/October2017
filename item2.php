@@ -26,6 +26,15 @@
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
 <script>
+$('body').ready(function(){
+		ans = prompt("クイズの答えを入力してください");
+		var dispatch = '';
+		if (ans === 'ギリシャ'){
+		} else {
+			window.location.href = 'index.php';
+		}
+});
+
 $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
