@@ -28,23 +28,18 @@
 		$history = $db -> prepare($sql);
 		$history -> bindParam(':team_id', $team_id);
 		$history -> execute();
+		
+		require_once 'api/team-status.php';	
+		$team_status = TeamStatus::getStatus($team_id);
+		$is_used_item1 = TeamStatus::checkStatus($team_status, TeamStatus::STATUS_FLG_BIT_ITEM_1);
+		$is_used_item2 = TeamStatus::checkStatus($team_status, TeamStatus::STATUS_FLG_BIT_ITEM_2);
+		createItemLink('アイテム１', 'item1.php', 'アイテム1は使用済みです', $is_used_item1);
+		createItemLink('アイテム２', 'item2.php', 'アイテム2は使用済みです', $is_used_item2);
 
-		$item_use_ids = $history -> fetchAll(PDO::FETCH_COLUMN, 'item_id');
-		if (empty($item_use_ids)) {
-			echo '<a href="item1.php" class="link">アイテム１</a>';
-			echo '<a href="item2.php" class="link">アイテム２</a>';
-		} else {
-			$item_no = 0; // アイテム1
-			if (count($item_use_ids) == 1 && current($item_use_ids) == $item_no) {
-        echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
-        echo '<a href="item2.php" class="link">アイテム２</a>';
-			} else if (count($item_use_ids) == 1 && current($item_use_ids) != $item_no) {
-        echo '<a href="item1.php" class="link">アイテム１</a>';
-				echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
-			}else{
-				echo '<div class="message"><p>アイテム1は使用済みです</p></div>';
-				echo '<div class="message"><p>アイテム2は使用済みです</p></div>';
-			}
+		function createItemLink($innerHtml, $action, $message_when_used, $is_used){
+			$when_unavailable = '<div class="message"><p>'.$message_when_used.'</p></div>';
+			$when_available = '<a href="'.$action.'" class="link">'.$innerHtml.'</a>';
+			echo $is_used ? $when_unavailable : $when_available;
 		}
     ?>
     <a href="answer.php" class="link answer">回答する</a>
