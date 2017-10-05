@@ -5,7 +5,8 @@
 		exit;
 	}
 	require_once 'database/database.php';
-
+	require_once 'database/query.php';
+	
 	$deal_id_str = '';
 	$deal_id_list = [];
 	foreach( (array)$_GET['dealIdList'] as $deal_id ){
@@ -15,7 +16,9 @@
 		$deal_id_str .= $deal_id;
 		array_push( $deal_id_list, intval($deal_id) );
 	}
-
+	
+	$in_str = QueryUtil::whereIn($deal_id_list);
+	
 	$db = Database::connect();
 	$result = $db->query("select * from deal where DEAL_ID in($deal_id_str)");
 	$sum = 0;
@@ -24,9 +27,12 @@
 		$sum += $row['DEAL_PRICE'];
 		array_push( $deal_title_list, $row['DEAL_TITLE']);
 	}
+	echo $sum;
 	$team_id = $_SESSION['LXMC_TEAM'];
-	$db->query("update TEAM set ANSWER_STATUS_CD = 'ANS' where TEAM_ID = $team_id");
 
+	// TODO shogo.kataoka use TeamStatus::sendAnswer()
+	$db->query("update TEAM set STATUS = 0 where TEAM_ID = $team_id");
+	
 	header('content-type: application/json; charset=utf-8');
-	echo json_encode(array('sum'=>$sum, 'dealIdList'=>$deal_id_list, 'dealTitleList'=>$deal_title_list));
+	// echo json_encode(array('sum'=>$sum, 'dealIdList'=>$deal_id_list));
 ?>

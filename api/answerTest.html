@@ -10,7 +10,7 @@
 		console.log("start");
 		let api = new LxmcApi();
 		api.data = {
-			'dealIdList[]': [1, 2, 3]
+			'dealIdList[]': [100000,100002, 100003]
 		};
 		api.errorHandler = function(data){console.log(data);};
 		api.callApi('answer.php', function(data){console.log(data);});
