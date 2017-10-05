@@ -36,7 +36,7 @@
 	$in_str = QueryUtil::whereIn($deal_id_list);
 	
 	$db = Database::connect();
-	$result = $db->query("select * from deal where DEAL_ID $in_str");
+	$result = $db->query("select * from DEAL where DEAL_ID $in_str");
 	$sum = 0;
 	$deal_title_list = [];
 	foreach( $result as $row ){
