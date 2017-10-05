@@ -15,8 +15,8 @@ insert into DEAL(DEAL_ID, DEAL_TITLE, DEAL_PRICE, CATEGORY)
 
 
 insert into ITEM(ITEM_ID, ITEM_NAME, PASSWORD) 
-           value(0, 'アイテム1', MD5('Password1'))
-               ,(1, 'アイテム2', MD5('Password2'))
+           value(0, 'アイテム1', MD5('愛'))
+               ,(1, 'アイテム2', MD5('ギリシャ'))
 ;
 
 insert into TEAM( TEAM_ID, TEAM_NAME, PASSWORD, STATUS)
