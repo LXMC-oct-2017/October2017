@@ -17,7 +17,7 @@
      *  select password
      */
     function selectCorrectPassword($team_id){
-        require '../api/database/Database.php';
+        require '../api/database/database.php';
         $db = Database::connect();
         $stmt = $db->query("select PASSWORD from TEAM where TEAM_ID = $team_id");
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 'PASSWORD');
