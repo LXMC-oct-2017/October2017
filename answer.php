@@ -1,10 +1,6 @@
 <?php
-    session_start();
-    if( !isset($_SESSION['LXMC_TEAM']) ){
-        $login_url = './login/login.php';
-        header("Location: $login_url");
-        exit;
-    }
+	require_once dirname(__FILE__).'/api/auth-util.php';
+	AuthUtil::redirectIfNotLoggedIn();
 ?>
 <html>
 <head>

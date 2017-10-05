@@ -1,9 +1,6 @@
 <?php
-	session_start();
-	if( !isset($_SESSION['LXMC_TEAM']) ){
-		header('Location: /lxmc/login/login.php');
-		exit;
-	}
+	require_once dirname(__FILE__).'/api/auth-util.php';
+	AuthUtil::redirectIfNotLoggedIn();
 ?>
 <html>
 <head>
