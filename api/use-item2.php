@@ -7,6 +7,8 @@
 	require_once dirname(__FILE__).'/team-status.php';
 	require_once dirname(__FILE__).'/database/query.php';
 	require_once dirname(__FILE__).'/config.php';
+
+	// header('content-type: application/json; charset=utf-8');
 	
 	if( TeamStatus::isUsedItem2($_SESSION['LXMC_TEAM']) ){
 		http_response_code(400);

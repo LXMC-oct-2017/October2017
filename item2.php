@@ -66,7 +66,7 @@ $('.submit').click(function() {
 	}).get();
 
 		 let api = new LxmcApi();
-		 api.data = {'dealIdList': dealIdList};
+		 api.data = {'dealIdList[]': dealIdList};
 		 api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
 			 console.log(XMLHttpRequest.status);
 			 console.log(textStatus);

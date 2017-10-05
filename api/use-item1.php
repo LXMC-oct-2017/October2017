@@ -18,7 +18,7 @@
 	
 	
 	function useItem(){
-		 $deal_id = $_GET['dealId'];
+		$deal_id = $_GET['dealId'];
 		$db = Database::connect();
 		$sql = "select deal.DEAL_ID
 					 , deal.DEAL_TITLE
@@ -29,7 +29,7 @@
 		$row = $deal->fetch();
 		$deal_id = $row['DEAL_ID'];
 		$deal_title = $row['DEAL_TITLE'];
-		$use_result = $row['DEAL_PRICE'];
+		$use_result = $row['DEAL_PRICE'].'円';
 		$team_id = $_SESSION['LXMC_TEAM'];
 		$item_id = 0; // ITEM_ID of 'Item 1' is 0
 		$item_use_history_id = "'{$item_id}-{$team_id}'";
