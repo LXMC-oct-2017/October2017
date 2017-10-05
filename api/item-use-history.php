@@ -55,6 +55,7 @@
             foreach($deal_id_list as $deal_id){
                 $stmt->execute(array(':deal_id'=>$deal_id));
             }
+			$stmt = null;
         }
     }
 ?>

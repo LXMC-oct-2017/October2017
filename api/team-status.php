@@ -14,6 +14,7 @@
 		public static function getStatus($team_id){
 			$db = Database::connect();
 			$result = $db->query("select STATUS from TEAM where TEAM_ID = $team_id")->fetch();
+			$db = null;
 			return $result['STATUS'];
 		}
 		

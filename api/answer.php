@@ -6,6 +6,7 @@
 	}
 	require_once dirname(__FILE__).'/database/database.php';
 	require_once dirname(__FILE__).'/database/query.php';
+	require_once dirname(__FILE__).'/team-status.php';
 	
 	$deal_id_str = '';
 	$deal_id_list = [];
@@ -21,6 +22,8 @@
 	
 	$db = Database::connect();
 	$result = $db->query("select * from deal where DEAL_ID in($deal_id_str)");
+	$db = null;
+	$reult = null;
 	$sum = 0;
 	$deal_title_list = [];
 	foreach( $result as $row ){
@@ -30,9 +33,8 @@
 	echo $sum;
 	$team_id = $_SESSION['LXMC_TEAM'];
 
-	// TODO shogo.kataoka use TeamStatus::sendAnswer()
-	$db->query("update TEAM set STATUS = 0 where TEAM_ID = $team_id");
+	TeamStatus::sendAnswer($team_id);
 	
 	header('content-type: application/json; charset=utf-8');
-	// echo json_encode(array('sum'=>$sum, 'dealIdList'=>$deal_id_list));
+	echo json_encode(array('sum'=>$sum, 'dealIdList'=>$deal_id_list));
 ?>

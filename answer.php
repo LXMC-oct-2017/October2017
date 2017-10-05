@@ -64,6 +64,7 @@ $('.switch').click(function() {
 	  api.callApi('api/get-deal-all.php', onSucceeded );
   }
 });
+
 </script>
 </body>
 </html>

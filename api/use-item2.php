@@ -52,6 +52,8 @@
             $sum += $row['DEAL_PRICE'];
         }
 		$price_dif = 0;
+		$db = null;
+		$deal = null;
 		return $sum;
 	}
 
