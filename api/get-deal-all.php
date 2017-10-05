@@ -12,7 +12,8 @@
 	foreach( $deal_list as $deal ){
 		$deal_id = $deal['DEAL_ID'];
 		$deal_title = $deal['DEAL_TITLE'];
-		array_push($json, array('dealId'=>$deal_id, 'dealTitle'=>$deal_title));
+		$deal_category = $deal['CATEGORY'];
+		array_push($json, array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'category'=>$deal_category));
 	}
 	header('content-type: application/json; charset=utf-8');
 	echo json_encode($json);
