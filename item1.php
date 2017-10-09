@@ -22,8 +22,7 @@
       選択したディールの金額を公開されます
     　</p>
     </div>
-    <button class="switch">ディール一覧</button>
-    <button class="submit">ディール金額公開</button>
+    <div class="switch">ディール一覧</div>
   </div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
@@ -32,9 +31,10 @@
 <script>
 $('body').ready(function(){
 		ans = prompt("クイズの答えを入力してください");
-		var dispatch = '';
 		if (ans === '愛'){
+			alert("正解です！");
 		} else {
+			alert("不正解です！");
 			window.location.href = 'index.php';
 		}
 });
@@ -42,6 +42,7 @@ $('body').ready(function(){
 $('.switch').click(function() {
   if ($('.deals').length) {
     $(".deals").remove();
+		$(".submit").remove();
   } else {
 	  let onSucceeded = function(json) {
       var list = document.createElement('div');
@@ -59,20 +60,35 @@ $('.switch').click(function() {
           html: json[key].dealTitle
         });
 
-        var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle);
+        var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle).wrapInner('<label></label>');
 
         list.appendChild($deal[0]);
+				$('.switch').after(list);
       });
-      $('.submit').before(list);
+			$('.deals').after('<div class="submit" href="javascript:void(0);">ディール金額公開</div>');
 		};
-
 	  let api = new LxmcApi();
 	  api.errorHandler = function(data){console.log(data);};
 	  api.callApi('api/get-deal-all.php', onSucceeded);
+
+		var $moveBtn = $('<div></div>', {
+			id: "page-bottom",
+			'class': "page-bottom"
+		});
+
+		var $moveSub = $('<a></a>', {
+			id: "move-submit",
+			'class': "move-submit",
+			href: "javascript:void(0);",
+			html: '▼'
+		});
+
+		var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
+		$('#contents-inner').before($moveBottomBtn);
   }
 });
 
-$('.submit').click(function() {
+$(document).on('click', '.submit', function() {
   dealId = $('[name="radio-group"]:checked').val();
 
 	 if (dealId === undefined) {
@@ -99,7 +115,12 @@ $('.submit').click(function() {
 
 		 api.callApi('api/use-item1.php', onSucceeded);
 	 }
-});
+}).css('cursor','pointer');
+
+$(document).on('click', '.move-submit', function(){
+	var target = $('.submit');
+	$(window).scrollTop(target.offset().top);
+}).css('cursor','pointer');
 </script>
 
 </body>
