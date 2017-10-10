@@ -37,7 +37,7 @@
 		createItemLink('アイテム２', 'item2.php', 'アイテム2は使用済みです', $is_used_item2);
 
 		function createItemLink($innerHtml, $action, $message_when_used, $is_used){
-			$when_unavailable = '<div class="message"><p>'.$message_when_used.'</p></div>';
+			$when_unavailable = '<div class="message"><p><center>'.$message_when_used.'</center></p></div>';
 			$when_available = '<a href="'.$action.'" class="link" onClick="isAvailableUseItem()">'.$innerHtml.'</a>';
 			echo $is_used ? $when_unavailable : $when_available;
 		}
