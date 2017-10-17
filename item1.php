@@ -11,66 +11,116 @@
   <link rel="stylesheet" type="text/css" href="css/item1.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/LxmcApi.js"></script>
+	<script type="text/javascript" src="js/Deal.js"></script>
 </head>
 <body>
   <div id="header">
     <img src="img/luxa_header.png" width="100%"/>
   </div>
   <div id="contents-inner">
-    <div class="message">
-      <p>アイテム1を使用するディールを選択してください</br>
-      選択したディールの金額を公開されます
-    　</p>
-    </div>
-    <div class="switch">ディール一覧</div>
+		<ul>
+			<li class="switch">クイズ１</li>
+			<li class="switch">クイズ２</li>
+			<li class="switch">クイズ３</li>
+			<li class="switch">クイズ４</li>
+		</ul>
   </div>
+	<div class="home"><a href="index.php">< HOMEへ</a></div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
 
 <script>
-$('body').ready(function(){
-		ans = prompt("クイズの答えを入力してください");
-		if (ans === '愛'){
-			alert("正解です！");
-		} else {
-			alert("不正解です！");
-			window.location.href = 'index.php';
+var dealList = [];
+var selectDealList = [];
+
+$('.switch').on('click', function() {
+  var index = $(this).index();
+	var itemNo = index + 1;
+	ans = prompt("クイズ" + itemNo + "の答えを入力してください");
+	// ajaxでitemNo毎の答えをselectして代入
+	var selectAns = "test"; // test data
+	if (ans === selectAns){
+		alert("正解です！");
+
+		$(".switch").remove();
+
+		if ($('.deals').length) {
+			$(".deals").remove();
+			$(".submit").remove();
+	  } else {
+		  let onSucceeded = function(json) {
+				dealList = new Array();
+				json.forEach(function(val, key) {
+					var deal = new Deal(1, json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category);
+					dealList.push(deal);
+				});
+			};
+
+			var $message = $('<div class="message"><p>アイテム1を使用するディールを選択してください</br>選択したディールの金額を公開されます</p></div>');
+			$('#contents-inner').append($message);
+
+			var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
+			$('.message').append($file1);
+
+			var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
+			$('.message').append($file2);
+
+			var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
+			$('.message').append($file3);
+
+			let api = new LxmcApi();
+			api.errorHandler = function(data){console.log(data);};
+		  api.callApi('api/get-deal-all.php', onSucceeded);
 		}
+	} else {
+		alert("不正解です！");
+		// 遷移先の修正
+		window.location.href = 'index.php';
+	}
 });
 
-$('.switch').click(function() {
-  if ($('.deals').length) {
-    $(".deals").remove();
-		$(".submit").remove();
-  } else {
-	  let onSucceeded = function(json) {
-      var list = document.createElement('div');
-      list.className = 'deals';
+$('#contents-inner').on('click', '.file', function() {
+	if ($('.deals').length) {
+		$('.deals').remove();
+		$('.submit').remove();
+		$('.page-bottom').remove();
+	} else {
+		var $value = $(this).attr('value');
+		selectDealList = new Array();
+		// $valueをもとにディール取得
+		for(var i = 0; i < dealList.length; i++) {
+			if(dealList[i].dealCategory == $value) {
+				selectDealList.push(dealList[i]);
+			}
+		}
 
-      json.forEach(function(val, key) {
-        var $radio = $('<input></input>', {
-          name: "radio-group",
-          type: "radio",
-          value: json[key].dealId,
-        });
+		// deals生成
+		var list = document.createElement('div');
+		list.className = 'deals';
 
-        var $dealTitle = $('<p></p>', {
-          "class": "deal-title",
-          html: json[key].dealTitle
-        });
+		// dealを生成
+		for(var i = 0; i < selectDealList.length; i++) {
+			var $radio = $('<input></input>', {
+				name: "radio-group",
+				type: "radio",
+				value: selectDealList[i].dealId,
+			});
 
-        var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle).wrapInner('<label></label>');
+			var $dealTitle = $('<p></p>', {
+				"class": "deal-title",
+				html: selectDealList[i].dealTitle
+			});
 
-        list.appendChild($deal[0]);
-				$('.switch').after(list);
-      });
-			$('.deals').after('<div class="submit" href="javascript:void(0);">ディール金額公開</div>');
-		};
-	  let api = new LxmcApi();
-	  api.errorHandler = function(data){console.log(data);};
-	  api.callApi('api/get-deal-all.php', onSucceeded);
+			var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle).wrapInner('<label></label>');
+			list.appendChild($deal[0]);
+		}
+		$('#' + 'file' + $value).after(list);
 
+		// ディール金額公開ボタン
+		$('.deals').after('<div class="submit" href="javascript:void(0);">ディール金額公開</div>');
+
+		// 画面下部遷移ボタン
 		var $moveBtn = $('<div></div>', {
 			id: "page-bottom",
 			'class': "page-bottom"
@@ -85,10 +135,10 @@ $('.switch').click(function() {
 
 		var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
 		$('#contents-inner').before($moveBottomBtn);
-  }
-});
+	}
+}).css('cursor','pointer');
 
-$(document).on('click', '.submit', function() {
+$('#contents-inner').on('click', '.submit', function() {
   dealId = $('[name="radio-group"]:checked').val();
 
 	 if (dealId === undefined) {
@@ -103,14 +153,13 @@ $(document).on('click', '.submit', function() {
 		 }
 
 		 let onSucceeded = function(json){
-			 console.log(json['dealTitle']);
 			 $('.deals').remove();
 			 $('p').remove();
 			 $('.switch').remove();
 			 $('.submit').remove();
+			 $('.file').remove();
 
-			 $('.message').append('<p>' + json['dealTitle'] + 'の金額は' + json['dealPrice'] + '円です</p>');
-			 $('p').after('<div class="link"><a href="index.php">HOMEへ</a></div>');
+			 $('.message').append('<p><b>' + json['dealTitle'] + '</b>の金額は</br><center><b>' + json['dealPrice'] + '</b></center></br><center>です</center></p>');
 		 }
 
 		 api.callApi('api/use-item1.php', onSucceeded);
@@ -122,6 +171,5 @@ $(document).on('click', '.move-submit', function(){
 	$(window).scrollTop(target.offset().top);
 }).css('cursor','pointer');
 </script>
-
 </body>
 </html>
