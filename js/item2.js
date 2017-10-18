@@ -74,6 +74,16 @@ $('#contents-inner').on('click', '.file', function() {
 		}
 		$('#' + 'file' + $value).after(list);
 
+    // チェックされているディールのチェックボックスにチェックを入れる
+    for(var i = 0; i < selectDealIdList.length; i++) {
+      for(var j = 0; j < categoryDealList.length; j++) {
+        if (selectDealIdList[i] == categoryDealList[j].dealId) {
+          var input = $("[value=" + selectDealIdList[i] +"]");
+          $(input).prop("checked",true);
+        }
+      }
+    }
+
 		// ディール金額公開ボタン
 		$('.deals').after('<div class="submit" href="javascript:void(0);">ディール金額公開</div>');
 
@@ -105,7 +115,6 @@ $(document).on('change', 'input[type="checkbox"]', function() {
         }
       }
     }
-    console.log(selectDealIdList);
 });
 
 $(document).on('click', '.submit', function() {
@@ -125,7 +134,7 @@ $(document).on('click', '.submit', function() {
   		$('.page-bottom').remove();
   		$('.file').remove();
 
-  		$('.message').append('<p>目標金額と選択されたディールの合計金額の差は</br>' + json['useResult'] + '</br>です</p>');
+  		$('.message').append('<p>目標金額と選択されたディールの合計金額の差は</br><center>' + json['useResult'] + '</center></br><center>です</center></p>');
   	}
 
   	api.callApi('api/use-item2.php', onSucceeded);
