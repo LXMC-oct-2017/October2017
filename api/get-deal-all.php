@@ -4,7 +4,7 @@
 		http_response_code(403);
 		exit;
 	}
-	
+
 	require_once dirname(__FILE__).'/database/database.php';
 	$db = Database::connect();
 	$deal_list = $db->query('select * from DEAL');
@@ -13,7 +13,8 @@
 		$deal_id = $deal['DEAL_ID'];
 		$deal_title = $deal['DEAL_TITLE'];
 		$deal_category = $deal['CATEGORY'];
-		array_push($json, array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'category'=>$deal_category));
+		$deal_no = $deal['NO'];
+		array_push($json, array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'category'=>$deal_category, 'no'=>$deal_no));
 	}
 	$db = null;
 	$deal_list = null;
