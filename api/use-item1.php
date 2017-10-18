@@ -22,6 +22,7 @@
 		$sql = "select deal.DEAL_ID
 					 , deal.DEAL_TITLE
 					 , deal.DEAL_PRICE
+					 , deal.NO
 				  from DEAL deal
 				 where deal.DEAL_ID = $deal_id";
 		$deal = $db->query($sql);
@@ -29,11 +30,12 @@
 		$deal_id = $row['DEAL_ID'];
 		$deal_title = $row['DEAL_TITLE'];
 		$use_result = $row['DEAL_PRICE'].'円';
+		$use_no = $row['NO'];
 		$team_id = $_SESSION['LXMC_TEAM'];
 		$item_id = 0; // ITEM_ID of 'Item 1' is 0
 		$item_use_history_id = "'{$item_id}-{$team_id}'";
 
-		$json = array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'dealPrice'=>$use_result);
+		$json = array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'dealPrice'=>$use_result, 'no'=>$use_no);
 
 		$itemUseHistory = new ItemUseHistory();
 		$itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
