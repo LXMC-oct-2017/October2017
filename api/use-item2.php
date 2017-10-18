@@ -67,9 +67,7 @@
 		$result_plus = ['0~4999円','5000~9999円','10000円~14999円','15000円~19999円','20000円以上'];
 		$result_minus = ['0~-4999円','-5000~-9999円','-10000円~-14999円','-15000円~-19999円','-20000円以上'];
 		$diff = $expect - $actual;
-		if( $diff == 0 ){
-			return '差分なし';
-		}
+
 		$index = min(intval(abs($diff)/5000), count($result_plus)-1);
 		return $diff > 0 ? $result_minus[$index] : $result_plus[$index];
 	}

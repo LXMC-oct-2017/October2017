@@ -30,9 +30,8 @@
 		$history -> execute();
 
 		require_once 'api/team-status.php';
-		$team_status = TeamStatus::getStatus($team_id);
-		$is_used_item1 = TeamStatus::checkStatus($team_status, TeamStatus::STATUS_FLG_BIT_ITEM_1);
-		$is_used_item2 = TeamStatus::checkStatus($team_status, TeamStatus::STATUS_FLG_BIT_ITEM_2);
+		$is_used_item1 = TeamStatus::isUsedItem1($team_id);
+		$is_used_item2 = TeamStatus::isUsedItem2($team_id);
 		createItemLink('アイテム１', 'item1.php', 'アイテム1は使用済みです', $is_used_item1);
 		createItemLink('アイテム２', 'item2.php', 'アイテム2は使用済みです', $is_used_item2);
 

@@ -3,9 +3,14 @@
 	
 	class TeamStatus{
 		
-		const STATUS_FLG_BIT_ITEM_1 = 1;
-		const STATUS_FLG_BIT_ITEM_2 = 2;
-		const STATUS_FLG_BIT_ANSWER = 4;
+		const STATUS_FLG_BIT_ITEM1_QUIZ1 = 1;
+		const STATUS_FLG_BIT_ITEM1_QUIZ2 = 2;
+		const STATUS_FLG_BIT_ITEM1_QUIZ3 = 4;
+		const STATUS_FLG_BIT_ITEM1_QUIZ4 = 8;
+		const STATUS_FLG_BIT_QUIZ = [1,2,4,8];
+		const STATUS_FLG_BIT_ITEM_2 = 32;
+		
+		const STATUS_FLG_BIT_ANSWER = 128;
 		
 		/**
 		 * 引数で渡されたIDで識別されるチームの現在のステータスを取得
@@ -22,9 +27,10 @@
 		 * チームのステータスフラグにアイテム1使用済みフラグを追加して更新
 		 * @param int team_id 
 		 */
-		public static function useItem1($team_id){
+		public static function useItem1($team_id, $quizNo){
 			$current_status = TeamStatus::getStatus($team_id);
-			TeamStatus::doUpdateStatus($team_id,  ($current_status | TeamStatus::STATUS_FLG_BIT_ITEM_1));
+			$flg_bit = TeamStatus::STATUS_FLG_BIT_QUIZ[$quizNo];
+			TeamStatus::doUpdateStatus($team_id,  ($current_status | $flg_bit));
 		}
 		
 		/**
@@ -50,9 +56,20 @@
 		 * @param int team_id 
 		 */
 		public static function isUsedItem1($team_id){
-			$current_status = TeamStatus::getStatus($team_id);
-			return (bool)(($current_status & TeamStatus::STATUS_FLG_BIT_ITEM_1) > 0);
+			for($i = 0; $i<4; ++$i){
+				if( !TeamStatus::isUsedItem1WithQuiz($team_id, $i) ){
+					return false;
+				}
+			}
+			return true;
 		}
+		
+		public static function isUsedItem1WithQuiz($team_id, $quiz_no){
+			$current_status = TeamStatus::getStatus($team_id);
+			$flg_bit = TeamStatus::STATUS_FLG_BIT_QUIZ[$quiz_no];
+			return (bool)(($current_status & $flg_bit) > 0);
+		}
+		
 		
 		/**
 		 * チームがアイテム2使用済みかチェックする
