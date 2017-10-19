@@ -20,7 +20,7 @@ var createCategoryDealList = function(){
 	// ディール金額公開ボタン(制御)
 	var $form = $('<form action="result.php" method="POST" name="checkbox-group"/>');
 	$('.files').wrap($form);
-	$('.files').after('<input class="submit" type="submit" value="合計金額公開"/>');
+	$('.files').after('<div><center><input class="submit" type="submit" value="合計金額公開"/></center></div>');
 
 	// separate deals by deal category
 	for( let i=0; i<3; ++i ){
@@ -82,7 +82,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 		if( idx == i ){
 			let hiddenChild = file.children('.deals:hidden');
 			console.log(hiddenChild.length);
-			if( hiddenChild.length > 0 ){ 
+			if( hiddenChild.length > 0 ){
 				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
 			}else{
 				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
@@ -94,7 +94,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 }).css('cursor','pointer');
 
 /**
- * 
+ *
  */
 $(document).on('change', 'input[type="checkbox"]', function() {
     if ($(this).is(':checked')) {
@@ -146,6 +146,11 @@ $(document).on('click', '.submit', function(){
 
 	if (counts['0'] < minSelectDeal || counts['1'] < minSelectDeal || counts['2'] < minSelectDeal) {
 		alert("ディールは各価格帯から最低2個選択してください！");
+		return false;
+	}
+
+	if (selectDealList.length == 0) {
+		alert("ディールを選択してください！");
 		return false;
 	}
 });
