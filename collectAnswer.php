@@ -30,7 +30,7 @@ FROM (
 
 $i = 0;
 $array = [];
-foreach( (array)$answers as $value ){
+foreach( $answers as $value ){
   if($value['rank'] != 1 || $value['rank'] != 2 || $value['rank'] != 3 || $value['rank'] != 19) {
     $ans['RANK'] = $value['rank'];
     $ans['TEAM_NAME'] = $value['team_name'];
