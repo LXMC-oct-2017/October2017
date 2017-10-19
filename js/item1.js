@@ -1,9 +1,11 @@
 var dealList = [];
 var selectDealList = [];
+var quizNo;
+var displayQuizNo;
 
 $('.switch').on('click', function() {
-	var quizNo = $(this).index(); 
-	let displayQuizNo = $(this).index() + 1;
+	quizNo = $(this).index();
+	displayQuizNo = $(this).index() + 1;
 	ans = prompt("クイズ" + displayQuizNo + "の答えを入力してください\n※答えは半角で入力してください");
 	let api = new LxmcApi();
 	api.data = { "quizNo": quizNo, "ans": ans };
@@ -117,11 +119,9 @@ $('#contents-inner').on('click', '.submit', function() {
 		 alert("ディールを選択してください！");
 	 } else {
 		 let api = new LxmcApi();
-		 api.data = {'dealId': dealId};
-		 api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
-			 console.log(XMLHttpRequest.status);
-			 console.log(textStatus);
-			 console.log(errorThrown.message);
+		 api.data = {'dealId': dealId, 'quizNo': quizNo};
+		 api.errorHandler = function(data) {
+			 alert("クイズ" + displayQuizNo + "は回答済みです");
 		 }
 
 		 let onSucceeded = function(json){

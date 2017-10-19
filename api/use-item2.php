@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/auth-util.php';
 	AuthUtil::forbiddenIfNotAuthorized();
-	
+
     require_once dirname(__FILE__).'/database/database.php';
     require_once dirname(__FILE__).'/item-use-history.php';
 	require_once dirname(__FILE__).'/team-status.php';
@@ -9,7 +9,7 @@
 	require_once dirname(__FILE__).'/config.php';
 
 	// header('content-type: application/json; charset=utf-8');
-	
+
 	if( TeamStatus::isUsedItem2($_SESSION['LXMC_TEAM']) ){
 		http_response_code(400);
 		$messages = array('アイテム2はすでに使用済みです');
@@ -17,11 +17,11 @@
 	}else{
 		useItem();
 	}
-	
+
 	function useItem(){
 		$config = Config::getInstance()->getConfig('general');
 		$target_money = $config['target_money'];
-		
+
 		$deal_id_list = $_GET['dealIdList'];
 		$sum = sumDealPrices($deal_id_list);
 		$use_result = roundDiffernce($target_money, $sum);
@@ -32,7 +32,7 @@
 
 		echo json_encode(array('dealIds'=> $deal_id_list, 'useResult'=>$use_result));
 	}
-	
+
     /**
 	 * 配列で渡されたディールの価格の合計を計算する
 	 * @param string deal_id_list ディールIDのリスト $_GET からそのまま渡す
@@ -64,8 +64,8 @@
 	 * @return string 差分を5000円単位で丸めた結果のメッセージ
 	 */
 	function roundDiffernce($expect, $actual){
-		$result_plus = ['0~4999円','5000~9999円','10000円~14999円','15000円~19999円','20000円以上'];
-		$result_minus = ['0~-4999円','-5000~-9999円','-10000円~-14999円','-15000円~-19999円','-20000円以上'];
+		$result_plus = ['0~4999円','5000~9999円','10000円~14999円','15000円~19999円','20000~24999円', '25000~29999円','30000~34999円', '35000~39999円', '40000~44999円', '45000 ~ 50000円', '50000円以上'];
+		$result_minus = ['0~-4999円','-5000~-9999円','-10000円~-14999円','-15000円~-19999円', '-25000~-29999円','-30000~-34999円', '-35000~-39999円', '-40000~-44999円', '-45000~-50000円', '-50000円以上];
 		$diff = $expect - $actual;
 
 		$index = min(intval(abs($diff)/5000), count($result_plus)-1);
