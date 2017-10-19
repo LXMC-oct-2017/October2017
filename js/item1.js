@@ -19,8 +19,22 @@ let = processQuizResponse = function(data){
 				var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
 				dealList.push(deal);
 			});
+			//	create file elements and its root
+			var $file0 = $('<div class="file" id="file0"></div>').append($('<div class="file-title" id="file-title0" value="0">価格帯（低）</div>'));
+			var $file1 = $('<div class="file" id="file1"></div>').append($('<div class="file-title" id="file-title1" value="1">価格帯（中）</div>'));
+			var $file2 = $('<div class="file" id="file2"></div>').append($('<div class="file-title" id="file-title2" value="2">価格帯（高）</div>'));
+
+			// create deals root element
+			var $deal = $('<div>').addClass('files').append($file0).append($file1).append($file2);
+			$('.message').after($deal);
+
+			// ディール金額公開ボタン(制御)
+			var $form = $('<form></form>');
+			$('.files').wrap($form);
+			$('.files').after('<input class="submit" type="button" value="合計金額公開"/>');
+
 			createDealInputForm(dealList, function(){
-				return {name: "radio-group", type: "radiobox"}
+				return {name: "radio-group", type: "radio"}
 			});
 		};
 		let api = new LxmcApi();

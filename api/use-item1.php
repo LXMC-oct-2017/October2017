@@ -44,12 +44,11 @@
         $use_no = $row['NO'];
         $team_id = $_SESSION['LXMC_TEAM'];
         $item_id = 0; // ITEM_ID of 'Item 1' is 0
-        $item_use_history_id = "'{$item_id}-{$team_id}'";
 
         $json = array('dealId'=>$deal_id, 'dealTitle'=>$deal_title, 'dealPrice'=>$use_result, 'no'=>$use_no);
 
         $itemUseHistory = new ItemUseHistory();
-        $itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
+        $itemUseHistory->insert($quiz_no, $team_id, $item_id, array($deal_id), $use_result);
         
         TeamStatus::useItem1($_SESSION['LXMC_TEAM'], $quiz_no);
         

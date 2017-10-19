@@ -44,8 +44,8 @@
             return json_encode($json);
         }
 
-        public function insert($team_id, $item_id, $deal_id_list, $use_result){
-            $history_id = "{$item_id}-{$team_id}";
+        public function insert($quiz_no, $team_id, $item_id, $deal_id_list, $use_result){
+            $history_id = "{$item_id}-{$team_id}-$quiz_";
             $sql = "insert into ITEM_USE_HISTORY(ITEM_USE_HISTORY_ID, TEAM_ID, ITEM_ID, ITEM_USE_RESULT)
                                            values('{$history_id}', {$team_id}, {$item_id}, '{$use_result}')";
             $this->database->query($sql);

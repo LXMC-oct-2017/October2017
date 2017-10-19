@@ -12,6 +12,21 @@ let = processQuizResponse = function(data){
 			var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
 			dealList.push(deal);
 		});
+		
+		//	create file elements and its root
+		var $file0 = $('<div class="file" id="file0"></div>').append($('<div class="file-title" id="file-title0" value="0">価格帯（低）</div>'));
+		var $file1 = $('<div class="file" id="file1"></div>').append($('<div class="file-title" id="file-title1" value="1">価格帯（中）</div>'));
+		var $file2 = $('<div class="file" id="file2"></div>').append($('<div class="file-title" id="file-title2" value="2">価格帯（高）</div>'));
+
+		// create deals root element
+		var $deal = $('<div>').addClass('files').append($file0).append($file1).append($file2);
+		$('.message').after($deal);
+
+		// ディール金額公開ボタン(制御)
+		var $form = $('<form></form>');
+		$('.files').wrap($form);
+		$('.files').after('<input class="submit" type="button" value="合計金額公開"/>');
+
 		createDealInputForm(dealList, function(){
 			return {name: "checkbox-group", type: "checkbox"}
 		});
@@ -43,7 +58,6 @@ $('#contents-inner').on('click', '.file-title', function(){
 		let file = $('#file'+i);
 		if( idx == i ){
 			let hiddenChild = file.children('.deals:hidden');
-			console.log(hiddenChild.length);
 			if( hiddenChild.length > 0 ){ 
 				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
 			}else{
@@ -56,10 +70,8 @@ $('#contents-inner').on('click', '.file-title', function(){
 }).css('cursor','pointer');
 
 $(document).on('change', 'input[type="checkbox"]', function() {
-	consle.log('test_log');
     if ($(this).prop('checked')) {
       selectDealIdList.push($(this).val());
-	   console.log('add ' + $(this.val()));
     } else {
       for(i=0; i<selectDealIdList.length; i++){
         if(selectDealIdList[i] == $(this).val()){
@@ -73,11 +85,6 @@ $(document).on('click', '.submit', function() {
   	let api = new LxmcApi();
 	console.log(selectDealIdList);
   	api.data = {'dealIdList[]': selectDealIdList};
-  	api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {
-  		console.log(XMLHttpRequest.status);
-  		console.log(textStatus);
-  		console.log(errorThrown.message);
-  	}
 
   	let onSucceeded = function(json){
   		$('.deals').remove();
@@ -91,7 +98,6 @@ $(document).on('click', '.submit', function() {
   	}
 
   	api.callApi('api/use-item2.php', onSucceeded);
-//  }
 }).css('cursor','pointer');
 
 $(document).on('click', '.move-submit', function(){
