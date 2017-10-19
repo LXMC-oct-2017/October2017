@@ -2,16 +2,24 @@ function footerStart(selector){
       // #itemまでスクロール
     $('html,body').animate({scrollTop: $(selector).offset().top},'fast');
     //スクロールの着地点を生成
-}$("#contents-inner").append("<div id='message'>結果発表</div>");
+}
+
+function scrollTopAnimation(time) {
+  $("html,body").animate({scrollTop:0},time);
+}
+
+$("#contents-inner").append("<div id='res'><button id='result'>結果発表</button></div>");
 
 $(document).ready(function(){
-  $('.result').hide();
-  footerStart("#message");
-  $('html,body').animate({scrollTop: 0}, 500, 'slow');
-  //$('#message').fadeIn(7000);
-  //$('.result').show();
+  var rowCount = $('.result').length;
+  var rowHeight = $('.result').height();
+  //console.log(rowHeight);
+  $('#teamResult').css('height', rowCount * rowHeight + 'px');
+  footerStart("button");
 });
 
-function scrollToTop() {
-  $('html,body').animate({scrollTop: 0}, 500, 'slow');
-}
+$(document).on('click', '#result', function() {
+    $('.result').show();
+    scrollTopAnimation(4000);
+    return false;
+});

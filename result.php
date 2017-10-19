@@ -19,7 +19,6 @@
   <div class="message">
     <p>
 <?php
-/*
 	require_once dirname(__FILE__).'/api/config.php';
 	$config = Config::getInstance()->getConfig('general');
 	echo '目標金額'.$config['target_money'].'円';
@@ -55,7 +54,6 @@
 
 	TeamStatus::sendAnswer($team_id);
 	echo $sum.'円';
-	*/
 ?>
       </span>
     </p>

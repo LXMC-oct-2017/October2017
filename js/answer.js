@@ -1,6 +1,8 @@
 var dealList = [];
 var categoryDealList = [];
 var selectDealIdList = [];
+var categoryList = [];
+var counter;
 
 $('body').ready(function(){
 	var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
@@ -28,6 +30,7 @@ $('#contents-inner').on('click', '.file', function() {
 		$('.deals').remove();
 		$('.submit').remove();
 		$('.page-bottom').remove();
+		categoryDealList = [];
 	} else {
 		var $value = $(this).attr('value');
 		selectDealList = new Array();
@@ -47,7 +50,7 @@ $('#contents-inner').on('click', '.file', function() {
 			var $radio = $('<input></input>', {
 				name: "checkbox-group",
 				type: "checkbox",
-				value: categoryDealList[i].dealId,
+				value: categoryDealList[i].dealId
 			});
 
 			var $dealTitle = $('<p></p>', {
@@ -59,6 +62,15 @@ $('#contents-inner').on('click', '.file', function() {
 			list.appendChild($deal[0]);
 		}
 		$('#' + 'file' + $value).after(list);
+
+    for(var i = 0; i < selectDealIdList.length; i++) {
+      for(var j = 0; j < categoryDealList.length; j++) {
+        if (selectDealIdList[i] == categoryDealList[j].dealId) {
+          var input = $("[value=" + selectDealIdList[i] +"]");
+          $(input).prop("checked",true);
+        }
+      }
+		}
 
 		// ディール金額公開ボタン(制御)
 		var $form = $('<form action="result.php" method="POST" name="checkbox-group"/>');
@@ -86,22 +98,50 @@ $('#contents-inner').on('click', '.file', function() {
 $(document).on('change', 'input[type="checkbox"]', function() {
     if ($(this).is(':checked')) {
       selectDealIdList.push($(this).val());
-    } else {
-      for(i=0; i<selectDealIdList.length; i++){
-        if(selectDealIdList[i] == $(this).val()){
-          selectDealIdList.splice(i, 1);
+
+			for(var i = 0; i < dealList.length; i++) {
+        if (dealList[i].dealId == $(this).val()) {
+					console.log("add");
+					categoryList.push(dealList[i].dealCategory);
         }
       }
+    } else {
+      for(var i = 0; i < selectDealIdList.length; i++){
+        if(selectDealIdList[i] == $(this).val()){
+          selectDealIdList.splice(i, 1);
+					break;
+        }
+      }
+
+			var category;
+			for(let i = 0; i < dealList.length; i++) {
+        if (dealList[i].dealId == $(this).val()) {
+					category = dealList[i].dealCategory;
+        }
+			}
+
+			categoryList.some(function (v, k, list) {
+				if (v == category) {
+					list.splice(k, 1);
+					return true;
+				}
+			});
     }
 });
 
 $(document).on('click', '.submit', function(){
-  //$('form').submit(function() {
-    if (selectDealIdList.length <= 5) {
-      alert("ディールは各価格帯から最低2個選択してください！");
-      return false;
-    }
-  //});
+	var minSelectDeal = 2;
+	var counts = {};
+
+	for(var i = 0;i < categoryList.length; i++){
+	  var key = categoryList[i];
+	  counts[key] = (counts[key])? counts[key] + 1 : 1 ;
+	}
+
+	if (counts['0'] < minSelectDeal || counts['1'] < minSelectDeal || counts['2'] < minSelectDeal) {
+		alert("ディールは各価格帯から最低2個選択してください！");
+		return false;
+	}
 });
 
 $(document).on('click', '.move-submit', function(){
