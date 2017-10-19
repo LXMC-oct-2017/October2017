@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="css/common.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/LxmcApi.js"></script>
-	<script type="text/javascript" src="js/Deal.js"></script>
+  <script type="text/javascript" src="js/Deal.js"></script>
 </head>
 <body>
   <div id="header">
@@ -27,6 +27,7 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
+<script type="text/javascript" src="js/common.js"></script> 
 <script type="text/javascript" src="js/answer.js"></script>
 </body>
 </html>

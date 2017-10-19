@@ -8,7 +8,6 @@
   <title>lxmc item1</title>
   <meta name="viewport" content="width=380px">
   <link rel="stylesheet" type="text/css" href="css/common.css">
-  <link rel="stylesheet" type="text/css" href="css/item1.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="js/LxmcApi.js"></script>
 	<script type="text/javascript" src="js/Deal.js"></script>
@@ -29,6 +28,7 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
+<script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/item1.js"></script>
 </body>
 </html>

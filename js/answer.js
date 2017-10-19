@@ -5,65 +5,18 @@ var categoryList = [];
 var counter;
 
 /**
- * grouping deal by category
- */
-var createCategoryDealList = function(){
-	// dealを生成
-	var $value = $(this).attr('value');
-	selectDealList = new Array();
-
-	let categoryDealList = [[], [], []];
-	for( let deal of dealList ){
-		categoryDealList[deal.dealCategory].push(deal);
-	}
-
-	// ディール金額公開ボタン(制御)
-	var $form = $('<form action="result.php" method="POST" name="checkbox-group"/>');
-	$('.files').wrap($form);
-	$('.files').after('<div><center><input class="submit" type="submit" value="合計金額公開"/></center></div>');
-
-	// separate deals by deal category
-	for( let i=0; i<3; ++i ){
-		let list = document.createElement('div');
-		list.className = 'deals';
-		for( categoryDeal of categoryDealList[i] ){
-			let checkbox = $('<input></input>', {
-				name: "checkbox-group[]",
-				type: "checkbox",
-				value: categoryDeal.dealId
-			});
-			var dealTitle = $('<p></p>', {
-				"class": "deal-title",
-				html: categoryDeal.no + '. ' + categoryDeal.dealTitle
-			});
-			var divDeal = $('<div>').addClass('deal').append(checkbox).append(dealTitle).wrapInner('<label></label>');
-			list.appendChild(divDeal[0])
-		}
-		$('#file' + i).append(list);
-		$('#file' + i).children('.deals').hide();
-	}
-}
-
-/**
  * on body get ready
  */
 $('body').ready(function(){
-	//	create file elements and its root
-	var $file0 = $('<div class="file" id="file0"></div>').append($('<div class="file-title" id="file-title0" value="0">価格帯（低）</div>'));
-	var $file1 = $('<div class="file" id="file1"></div>').append($('<div class="file-title" id="file-title1" value="1">価格帯（中）</div>'));
-	var $file2 = $('<div class="file" id="file2"></div>').append($('<div class="file-title" id="file-title2" value="2">価格帯（高）</div>'));
-
-	// create deals root element
-	var $deal = $('<div>').addClass('files').append($file0).append($file1).append($file2);
-	$('.message').after($deal);
-
 	let onSucceeded = function(json) {
 		dealList = new Array();
 		json.forEach(function(val, key) {
 			var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
 			dealList.push(deal);
 		});
-		createCategoryDealList();
+		createDealInputForm( dealList, function(){
+			return { name: "checkbox-group[]", type: "checkbox"}
+		});
 	};
 
 	let api = new LxmcApi();
@@ -82,7 +35,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 		if( idx == i ){
 			let hiddenChild = file.children('.deals:hidden');
 			console.log(hiddenChild.length);
-			if( hiddenChild.length > 0 ){
+			if( hiddenChild.length > 0 ){ 
 				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
 			}else{
 				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
@@ -94,7 +47,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 }).css('cursor','pointer');
 
 /**
- *
+ * 
  */
 $(document).on('change', 'input[type="checkbox"]', function() {
     if ($(this).is(':checked')) {
@@ -134,23 +87,31 @@ $(document).on('change', 'input[type="checkbox"]', function() {
  * validate input check box
  */
 $(document).on('click', '.submit', function(){
-	console.log(categoryList);
-	console.log(selectDealIdList);
-	var minSelectDeal = 2;
-	var counts = {};
-
-	for(var i = 0;i < categoryList.length; i++){
-	  var key = categoryList[i];
-	  counts[key] = (counts[key])? counts[key] + 1 : 1 ;
+	console.log('validate');
+	let dealCount = [0, 0, 0];
+	
+	let selectedDeals = [];
+	for(let deal of dealList){
+		if( selectDealIdList.includes(deal.dealId) ){
+			selectedDeals.push(deal);
+		}
 	}
 
-	if (counts['0'] < minSelectDeal || counts['1'] < minSelectDeal || counts['2'] < minSelectDeal) {
+	for( let deal of selectedDeals ){
+		console.log(deal.dealCategory);
+		dealCount[deal.dealCategory] += 1;
+	}
+	console.log(dealCount);
+
+	let validationError = false;
+	for( let count of dealCount ){
+		if( count < 2 ){
+			validationError = true;
+			break;
+		}
+	}
+	if(validationError){ 
 		alert("ディールは各価格帯から最低2個選択してください！");
-		return false;
-	}
-
-	if (selectDealList.length == 0) {
-		alert("ディールを選択してください！");
 		return false;
 	}
 });

@@ -27,6 +27,7 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
+<script type="text/javascript" src="js/common.js"></script> 
 <script type="text/javascript" src="js/item2.js"></script>
 </body>
 </html>
