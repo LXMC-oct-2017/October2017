@@ -32,6 +32,46 @@ let = processQuizResponse = function(data){
 	}
 }
 
+/**
+ * open and close files
+ */
+$('#contents-inner').on('click', '.file-title', function(){
+	const FADE_DURATION_MILLI_SEC = 500;
+	let idx = $(this).attr("value");
+	for(let i=0; i<3; ++i ){
+		let file = $('#file'+i);
+		if( idx == i ){
+			let hiddenChild = file.children('.deals:hidden');
+			console.log(hiddenChild.length);
+			if( hiddenChild.length > 0 ){ 
+				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
+			}else{
+				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
+			}
+		}else{
+			file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
+		}
+	}
+
+// TODO これよくわからんから後回し
+//	var $moveBtn = $('<div></div>', {
+//		id: "page-bottom",
+//		'class': "page-bottom"
+//	});
+//	
+//	var $moveSub = $('<a></a>', {
+//		id: "move-submit",
+//		'class': "move-submit",
+//		href: "javascript:void(0);",
+//		html: '▼'
+//	});
+//	
+//	var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
+//	$('#contents-inner').before($moveBottomBtn);
+
+}).css('cursor','pointer');
+
+
 $('.switch').on('click', function() {
 	quizNo = $(this).index();
 	displayQuizNo = $(this).index() + 1;
@@ -40,21 +80,6 @@ $('.switch').on('click', function() {
 	var api = new LxmcApi();
 	api.data = {"quizNo":quizNo, "ans":ans};
 	api.callApi('./api/quiz.php', processQuizResponse);
-	
-	var $moveBtn = $('<div></div>', {
-		id: "page-bottom",
-		'class': "page-bottom"
-	});
-	
-	var $moveSub = $('<a></a>', {
-		id: "move-submit",
-		'class': "move-submit",
-		href: "javascript:void(0);",
-		html: '▼'
-	});
-	
-	var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
-	$('#contents-inner').before($moveBottomBtn);
 });
 
 
