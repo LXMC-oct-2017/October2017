@@ -18,12 +18,12 @@ select[name="team-id"] {
 
 #password {
   text-align: center;
+  margin-top: 50px;
 }
 
 input[name="password"] {
   line-height: 40px;
   width: 203px;
-  margin-top: 50px;
   margin-bottom: 50px;
   border-radius: 5px;
 }
