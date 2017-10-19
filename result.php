@@ -45,10 +45,12 @@
 	registerAnswer($team_id, $sum, $deal_id_list);
 	TeamStatus::sendAnswer($team_id);
 ?>
-	  <div id="message">
+		<div class="spacer"></div>
+		<div id="message">
 	    <p>結果発表まで少々お待ちください
 	    </p>
 	  </div>
+		<div class="spacer"></div>
 	</div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
