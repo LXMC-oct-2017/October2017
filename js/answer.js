@@ -4,6 +4,9 @@ var selectDealIdList = [];
 var categoryList = [];
 var counter;
 
+/**
+ * grouping deal by category
+ */
 var createCategoryDealList = function(){
 	// dealを生成
 	var $value = $(this).attr('value');
@@ -19,33 +22,39 @@ var createCategoryDealList = function(){
 	$('.files').wrap($form);
 	$('.files').after('<input class="submit" type="submit" value="合計金額公開"/>');
 
+	// separate deals by deal category
 	for( let i=0; i<3; ++i ){
 		let list = document.createElement('div');
 		list.className = 'deals';
 		for( categoryDeal of categoryDealList[i] ){
-				let $checkbox = $('<input></input>', {
-					name: "checkbox-group[]",
-					type: "checkbox",
-					value: categoryDeal.dealId
-				});
-				var $dealTitle = $('<p></p>', {
-					"class": "deal-title",
-					html: categoryDeal.no + '. ' + categoryDeal.dealTitle
-				});
-				var divDeal = $('<div>').addClass('deal').append($checkbox).append($dealTitle).wrapInner('<label></label>');
-				list.appendChild(divDeal[0])
+			let checkbox = $('<input></input>', {
+				name: "checkbox-group[]",
+				type: "checkbox",
+				value: categoryDeal.dealId
+			});
+			var dealTitle = $('<p></p>', {
+				"class": "deal-title",
+				html: categoryDeal.no + '. ' + categoryDeal.dealTitle
+			});
+			var divDeal = $('<div>').addClass('deal').append(checkbox).append(dealTitle).wrapInner('<label></label>');
+			list.appendChild(divDeal[0])
 		}
 		$('#file' + i).append(list);
-		$('#file' + i).children().hide();
+		$('#file' + i).children('.deals').hide();
 	}
 }
 
+/**
+ * on body get ready
+ */
 $('body').ready(function(){
-	var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
-	var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
-	var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
+	//	create file elements and its root
+	var $file0 = $('<div class="file" id="file0"></div>').append($('<div class="file-title" id="file-title0" value="0">価格帯（低）</div>'));
+	var $file1 = $('<div class="file" id="file1"></div>').append($('<div class="file-title" id="file-title1" value="1">価格帯（中）</div>'));
+	var $file2 = $('<div class="file" id="file2"></div>').append($('<div class="file-title" id="file-title2" value="2">価格帯（高）</div>'));
 
-	var $deal = $('<div>').addClass('files').append($file1).append($file2).append($file3);
+	// create deals root element
+	var $deal = $('<div>').addClass('files').append($file0).append($file1).append($file2);
 	$('.message').after($deal);
 
 	let onSucceeded = function(json) {
@@ -63,52 +72,67 @@ $('body').ready(function(){
 });
 
 /**
- * ファイル開け閉め
+ * open and close files
  */
-$('#contents-inner').on('click', '.file', function(){
+$('#contents-inner').on('click', '.file-title', function(){
+	const FADE_DURATION_MILLI_SEC = 500;
 	let idx = $(this).attr("value");
 	for(let i=0; i<3; ++i ){
-
+		let file = $('#file'+i);
 		if( idx == i ){
-			$('#file'+idx).children().show();
+			let hiddenChild = file.children('.deals:hidden');
+			console.log(hiddenChild.length);
+			if( hiddenChild.length > 0 ){ 
+				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
+			}else{
+				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
+			}
+		}else{
+			file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
 		}
 	}
 }).css('cursor','pointer');
 
+/**
+ * 
+ */
 $(document).on('change', 'input[type="checkbox"]', function() {
     if ($(this).is(':checked')) {
-      selectDealIdList.push($(this).val());
+		selectDealIdList.push($(this).val());
 
-			for(var i = 0; i < dealList.length; i++) {
-        if (dealList[i].dealId == $(this).val()) {
-					console.log("add " + dealList[i].dealId);
-					categoryList.push(dealList[i].dealCategory);
-        }
-      }
-    } else {
-      for(var i = 0; i < selectDealIdList.length; i++){
-        if(selectDealIdList[i] == $(this).val()){
-          selectDealIdList.splice(i, 1);
-					break;
-        }
-      }
-
-			var category;
-			for(let i = 0; i < dealList.length; i++) {
-        if (dealList[i].dealId == $(this).val()) {
-					category = dealList[i].dealCategory;
-        }
+		for(var i = 0; i < dealList.length; i++) {
+			if (dealList[i].dealId == $(this).val()) {
+				console.log("add " + dealList[i].dealId);
+				categoryList.push(dealList[i].dealCategory);
 			}
+		}
+    } else {
+		for(var i = 0; i < selectDealIdList.length; i++){
+			if(selectDealIdList[i] == $(this).val()){
+				selectDealIdList.splice(i, 1);
+				break;
+			}
+		}
 
-			categoryList.some(function (v, k, list) {
-				if (v == category) {
-					list.splice(k, 1);
-					return true;
-				}
-			});
+		var category;
+		for(let i = 0; i < dealList.length; i++) {
+			if (dealList[i].dealId == $(this).val()) {
+				category = dealList[i].dealCategory;
+			}
+		}
+
+		categoryList.some(function (v, k, list) {
+			if (v == category) {
+				list.splice(k, 1);
+				return true;
+			}
+		});
     }
 });
 
+/**
+ * validate input check box
+ */
 $(document).on('click', '.submit', function(){
 	console.log(categoryList);
 	console.log(selectDealIdList);
@@ -130,7 +154,3 @@ $(document).on('click', '.move-submit', function(){
 	var target = $('.submit');
 	$(window).scrollTop(target.offset().top);
 }).css('cursor','pointer');
-
-$(document).on('click', '.submit', function() {
-
-});

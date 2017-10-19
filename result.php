@@ -25,7 +25,6 @@
 	$deal_id_list = [];
 	foreach( (array)$_POST['checkbox-group'] as $deal_id ){
 		array_push( $deal_id_list, intval($deal_id) );
-		echo	$deal_id;
 	}
 	$in_str = QueryUtil::whereIn($deal_id_list);
 
