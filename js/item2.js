@@ -20,9 +20,9 @@ let = processQuizResponse = function(data){
 				});
 			};
 
-			var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
-			var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
-			var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
+			var $file1 = $('<div class="file box" id="file0" value="0">価格帯（低）</div>');
+			var $file2 = $('<div class="file box" id="file1" value="1">価格帯（中）</div>');
+			var $file3 = $('<div class="file box" id="file2" value="2">価格帯（高）</div>');
 
 			var $deal = $('<div>').addClass('files').append($file1).append($file2).append($file3);
 			$('.message').after($deal);
@@ -125,7 +125,7 @@ $(document).on('change', 'input[type="checkbox"]', function() {
     }
 });
 
-$(document).on('click', '.submit', function() {
+$('#contents-inner').on('click', '.submit', function() {
   	let api = new LxmcApi();
   	api.data = {'dealIdList[]': selectDealIdList};
   	api.errorHandler = function(XMLHttpRequest, textStatus, errorThrown) {

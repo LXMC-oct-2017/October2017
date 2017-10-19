@@ -15,18 +15,17 @@
 	$target_money = $config['target_money'];
 
 	$db = Database::connect();
-	$answers = $db->query("SELECT rank, team_name, answer.answer_price, 70000 - answer.answer_price as 'dif' FROM (
-        SELECT answer_price, @rank AS rank, cnt, @rank := @rank + cnt FROM
-            (SELECT @rank := 1) AS Dummy,
-            (SELECT answer_price, count(*) AS cnt FROM answer GROUP BY answer_price ORDER BY answer_price DESC) AS GroupBy
-        ) AS Ranking
-        JOIN answer ON answer.answer_price = Ranking.answer_price
-        JOIN team ON answer.team_id = team.team_id
-        ORDER BY rank ASC;");
+	$answers = $db->query("SELECT rank, team_name, answer.answer_price, 70000 - answer.answer_price as 'dif'
+     FROM (SELECT answer_price, @rank AS rank, cnt, @rank := @rank + cnt FROM (
+       SELECT @rank := 1) AS Dummy, (
+         SELECT answer_price, count(*) AS cnt FROM answer GROUP BY answer_price ORDER BY answer_price DESC) AS GroupBy) AS Ranking
+          JOIN answer ON answer.answer_price = Ranking.answer_price
+          JOIN team ON answer.team_id = team.team_id
+          ORDER BY rank ASC;");
 
 	$i = 0;
 	$array = [];
-	foreach( $answers as $value ){
+	foreach( (array)$answers as $value ){
     $ans['RANK'] = $value['rank'];
 		$ans['TEAM_NAME'] = $value['team_name'];
 		$ans['ANSWER_PRICE'] = $value['answer_price'];

@@ -34,13 +34,13 @@ let processQuizResponse = function(data){
 			var $message = $('<div class="message"><p>アイテム1を使用するディールを1個選択してください</br>選択したディールの金額を公開されます</p></div>');
 			$('#contents-inner').append($message);
 
-			var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
+			var $file1 = $('<div class="file box" id="file0" value="0">価格帯（低）</div>');
 			$('.message').append($file1);
 
-			var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
+			var $file2 = $('<div class="file box" id="file1" value="1">価格帯（中）</div>');
 			$('.message').append($file2);
 
-			var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
+			var $file3 = $('<div class="file box" id="file2" value="2">価格帯（高）</div>');
 			$('.message').append($file3);
 
 			let api = new LxmcApi();

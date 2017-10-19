@@ -144,6 +144,15 @@ input {
   color: black;
 }
 
+.box {
+  background-color: gray;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .file-title {
   background-color: gray;
   color: white;
