@@ -4,6 +4,42 @@ var selectDealIdList = [];
 var categoryList = [];
 var counter;
 
+var createCategoryDealList = function(){
+	// dealを生成
+	var $value = $(this).attr('value');
+	selectDealList = new Array();
+
+	let categoryDealList = [[], [], []];
+	for( let deal of dealList ){
+		categoryDealList[deal.dealCategory].push(deal);
+	}
+
+	// ディール金額公開ボタン(制御)
+	var $form = $('<form action="result.php" method="POST" name="checkbox-group"/>');
+	$('.files').wrap($form);
+	$('.files').after('<input class="submit" type="submit" value="合計金額公開"/>');
+
+	for( let i=0; i<3; ++i ){
+		let list = document.createElement('div');
+		list.className = 'deals';
+		for( categoryDeal of categoryDealList[i] ){
+				let $checkbox = $('<input></input>', {
+					name: "checkbox-group[]",
+					type: "checkbox",
+					value: categoryDeal.dealId
+				});
+				var $dealTitle = $('<p></p>', {
+					"class": "deal-title",
+					html: categoryDeal.no + '. ' + categoryDeal.dealTitle
+				});
+				var divDeal = $('<div>').addClass('deal').append($checkbox).append($dealTitle).wrapInner('<label></label>');
+				list.appendChild(divDeal[0])
+		}
+		$('#file' + i).append(list);
+		$('#file' + i).children().hide();
+	}
+}
+
 $('body').ready(function(){
 	var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
 	var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
@@ -18,6 +54,7 @@ $('body').ready(function(){
 			var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
 			dealList.push(deal);
 		});
+		createCategoryDealList();
 	};
 
 	let api = new LxmcApi();
@@ -25,73 +62,16 @@ $('body').ready(function(){
 	api.callApi('api/get-deal-all.php', onSucceeded);
 });
 
-$('#contents-inner').on('click', '.file', function() {
-	if ($('.deals').length) {
-		$('.deals').remove();
-		$('.submit').remove();
-		$('.page-bottom').remove();
-		categoryDealList = [];
-	} else {
-		var $value = $(this).attr('value');
-		selectDealList = new Array();
-		// $valueをもとにディール取得
-		for(var i = 0; i < dealList.length; i++) {
-			if(dealList[i].dealCategory == $value) {
-				categoryDealList.push(dealList[i]);
-			}
+/**
+ * ファイル開け閉め
+ */
+$('#contents-inner').on('click', '.file', function(){
+	let idx = $(this).attr("value");
+	for(let i=0; i<3; ++i ){
+
+		if( idx == i ){
+			$('#file'+idx).children().show();
 		}
-
-		// deals生成
-		var list = document.createElement('div');
-		list.className = 'deals';
-
-		// dealを生成
-		for(var i = 0; i < categoryDealList.length; i++) {
-			var $radio = $('<input></input>', {
-				name: "checkbox-group",
-				type: "checkbox",
-				value: categoryDealList[i].dealId
-			});
-
-			var $dealTitle = $('<p></p>', {
-				"class": "deal-title",
-				html: categoryDealList[i].no + '. ' + categoryDealList[i].dealTitle
-			});
-
-			var $deal = $('<div>').addClass('deal').append($radio).append($dealTitle).wrapInner('<label></label>');
-			list.appendChild($deal[0]);
-		}
-		$('#' + 'file' + $value).after(list);
-
-    for(var i = 0; i < selectDealIdList.length; i++) {
-      for(var j = 0; j < categoryDealList.length; j++) {
-        if (selectDealIdList[i] == categoryDealList[j].dealId) {
-          var input = $("[value=" + selectDealIdList[i] +"]");
-          $(input).prop("checked",true);
-        }
-      }
-		}
-
-		// ディール金額公開ボタン(制御)
-		var $form = $('<form action="result.php" method="POST" name="checkbox-group"/>');
-		$('.files').wrap($form);
-		$('.files').after('<input class="submit" type="submit" value="合計金額公開"/>');
-
-		// 画面下部遷移ボタン
-		var $moveBtn = $('<div></div>', {
-			id: "page-bottom",
-			'class': "page-bottom"
-		});
-
-		var $moveSub = $('<a></a>', {
-			id: "move-submit",
-			'class': "move-submit",
-			href: "javascript:void(0);",
-			html: '▼'
-		});
-
-		var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
-		$('#contents-inner').before($moveBottomBtn);
 	}
 }).css('cursor','pointer');
 
@@ -101,7 +81,7 @@ $(document).on('change', 'input[type="checkbox"]', function() {
 
 			for(var i = 0; i < dealList.length; i++) {
         if (dealList[i].dealId == $(this).val()) {
-					console.log("add");
+					console.log("add " + dealList[i].dealId);
 					categoryList.push(dealList[i].dealCategory);
         }
       }
@@ -130,6 +110,8 @@ $(document).on('change', 'input[type="checkbox"]', function() {
 });
 
 $(document).on('click', '.submit', function(){
+	console.log(categoryList);
+	console.log(selectDealIdList);
 	var minSelectDeal = 2;
 	var counts = {};
 

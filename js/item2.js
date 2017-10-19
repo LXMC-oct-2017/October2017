@@ -1,40 +1,48 @@
 var dealList = [];
 var categoryDealList = [];
 var selectDealIdList = [];
+let quizNo = 4;
+let displayQuizNo = quizNo + 1;
+
+let = processQuizResponse = function(data){
+	if (data.flag){
+		$(".switch").remove();
+
+		if ($('.deals').length) {
+			$(".deals").remove();
+			$(".submit").remove();
+	  } else {
+			let onSucceeded = function(json) {
+				dealList = new Array();
+				json.forEach(function(val, key) {
+					var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
+					dealList.push(deal);
+				});
+			};
+
+			var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
+			var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
+			var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
+
+			var $deal = $('<div>').addClass('files').append($file1).append($file2).append($file3);
+			$('.message').after($deal);
+
+			let api = new LxmcApi();
+			api.errorHandler = function(data){console.log(data);};
+		  api.callApi('./api/get-deal-all.php', onSucceeded);
+		}
+	} else {
+		alert("不正解です！");
+		window.location.href = 'index.php';
+	}
+}
 
 $('body').ready(function(){
-		ans = prompt("クイズの答えを入力してください");
-		var dispatch = '';
-		if (ans === 'ギリシャ'){
-			$(".switch").remove();
 
-			if ($('.deals').length) {
-				$(".deals").remove();
-				$(".submit").remove();
-		  } else {
-				let onSucceeded = function(json) {
-					dealList = new Array();
-					json.forEach(function(val, key) {
-						var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
-						dealList.push(deal);
-					});
-				};
-
-				var $file1 = $('<div class="file" id="file0" value="0">価格帯（低）</div>');
-				var $file2 = $('<div class="file" id="file1" value="1">価格帯（中）</div>');
-				var $file3 = $('<div class="file" id="file2" value="2">価格帯（高）</div>');
-
-				var $deal = $('<div>').addClass('files').append($file1).append($file2).append($file3);
-				$('.message').after($deal);
-
-				let api = new LxmcApi();
-				api.errorHandler = function(data){console.log(data);};
-			  api.callApi('./api/get-deal-all.php', onSucceeded);
-			}
-		} else {
-			alert("不正解です！");
-			window.location.href = 'index.php';
-		}
+		let ans = prompt("クイズ" + displayQuizNo + "の答えを入力してください\n※答えは半角で入力してください");
+		var api = new LxmcApi();
+		api.data = {"quizNo":quizNo, "ans":ans};
+		api.callApi('./api/quiz.php', processQuizResponse);
 });
 
 $('#contents-inner').on('click', '.file', function() {
