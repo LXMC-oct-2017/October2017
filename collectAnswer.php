@@ -15,22 +15,33 @@
 	$target_money = $config['target_money'];
 
 	$db = Database::connect();
-	$answers = $db->query('select * from ANSWER');
+	$answers = $db->query("SELECT rank, team_name, answer.answer_price, 70000 - answer.answer_price as 'dif' FROM (
+        SELECT answer_price, @rank AS rank, cnt, @rank := @rank + cnt FROM
+            (SELECT @rank := 1) AS Dummy,
+            (SELECT answer_price, count(*) AS cnt FROM answer GROUP BY answer_price ORDER BY answer_price DESC) AS GroupBy
+        ) AS Ranking
+        JOIN answer ON answer.answer_price = Ranking.answer_price
+        JOIN team ON answer.team_id = team.team_id
+        ORDER BY rank ASC;");
 
 	$i = 0;
 	$array = [];
 	foreach( $answers as $value ){
-		$ans['ANSWER_ID'] = $value['ANSWER_ID'];
-		$ans['TEAM_ID'] = $value['TEAM_ID'];
-		$ans['ANSWER_PRICE'] = $value['ANSWER_PRICE'];
-		$ans['ANSWER_DATETIME'] = $value['ANSWER_DATETIME'];
+    $ans['RANK'] = $value['rank'];
+		$ans['TEAM_NAME'] = $value['team_name'];
+		$ans['ANSWER_PRICE'] = $value['answer_price'];
+		$ans['DIF'] = $value['dif'];
 
-		$sort[$i] = abs($target_money - $ans['ANSWER_PRICE']);
+		//$sort[$i] = abs($target_money - $ans['ANSWER_PRICE']);
 		$array[$i] = $ans;
 		++$i;
 	}
 
-	array_multisort($sort, SORT_ASC, $array);
+
+
+	//array_multisort($sort, SORT_ASC, $array);
+
+
 
 /*
 	$rank = 0;
@@ -44,27 +55,21 @@
 	}
 	*/
   echo '<div id="top">他チームは別途発表</div><br>';
-
+  echo '<div id="teamResult">';
 	foreach( (array)$array as $ans ){
-		echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
-    echo '<div class="result">TEAM_ID: '.$ans['TEAM_ID'].' PRICE : '.$ans['ANSWER_PRICE'].'</div><br>';
+		echo '<div class="result">'.$ans['RANK'].'位 TEAM_NAME:'.$ans['TEAM_NAME'].' PRICE'.$ans['ANSWER_PRICE'].'DIF: '.$ans['DIF'].'</div>';
 	}
+  echo '</div>';
 
 	$db = null;
+
+  // ランキング処理
+  function rankTeam($array) {
+    $rank = 0;
+    foreach( $array as $value ) {
+      //$value['answer']
+    }
+  }
 ?>
 </div>
 <script type="text/javascript" src="js/collectAnswer.js"></script>
