@@ -1,7 +1,7 @@
 <?php
 	require_once dirname(__FILE__).'/auth-util.php';
     AuthUtil::forbiddenIfNotAuthorized();
-
+	
 	$quiz_no = $_GET['quizNo'];
 	$answer = $_GET['ans'];
 	
@@ -11,9 +11,6 @@
 	$flag = false;
 	foreach( $res as $row ){
 		$flag = $row['ANSWER'] == md5($answer);
-		echo md5($answer);
-		echo '<br>';
-		echo $row['ANSWER'];
 	}
 	
 	$db = null;

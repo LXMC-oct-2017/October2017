@@ -2,30 +2,17 @@ var dealList = [];
 var selectDealList = [];
 
 $('.switch').on('click', function() {
-  var index = $(this).index();
-	var quizNo = index + 1;
-	ans = prompt("クイズ" + quizNo + "の答えを入力してください\n※答えは半角で入力してください");
-	// ajaxでitemNo毎の答えをselectして代入
-  let onSucceeded = function(json) {
-    dealList = new Array();
-    json.forEach(function(val, key) {
-      var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
-      dealList.push(deal);
-    });
-  };
+	var quizNo = $(this).index(); 
+	let displayQuizNo = $(this).index() + 1;
+	ans = prompt("クイズ" + displayQuizNo + "の答えを入力してください\n※答えは半角で入力してください");
+	let api = new LxmcApi();
+	api.data = { "quizNo": quizNo, "ans": ans };
+	api.errorHandler = function(data){console.log(data);};
+	api.callApi('./api/quiz.php', processQuizResponse);
+});
 
-
-  let api = new LxmcApi();
-  api.data = {
-    "quizNo": quizNo,
-    "ans": ans
-  }
-  api.errorHandler = function(data){console.log(data);};
-  api.callApi('./api/クイズ.php', onSucceeded);
-
-
-	var response = "test"; // test data
-	if (ans === response){
+let processQuizResponse = function(data){
+	if ( data.flag ){
 		alert("正解です！");
 
 		$(".switch").remove();
@@ -56,14 +43,14 @@ $('.switch').on('click', function() {
 
 			let api = new LxmcApi();
 			api.errorHandler = function(data){console.log(data);};
-		  api.callApi('./api/get-deal-all.php', onSucceeded);
+			api.callApi('./api/get-deal-all.php', onSucceeded);
 		}
 	} else {
 		alert("不正解です！");
 		// 遷移先の修正
 		window.location.href = 'index.php';
 	}
-});
+}
 
 $('#contents-inner').on('click', '.file', function() {
 	if ($('.deals').length) {
