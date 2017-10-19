@@ -12,3 +12,11 @@ html {
 #result {
   width: 900px;
 }
+
+#teamResult {
+}
+
+.result {
+  display: none;
+  height: 200px;
+}

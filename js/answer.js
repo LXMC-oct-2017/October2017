@@ -105,8 +105,6 @@ $(document).on('change', 'input[type="checkbox"]', function() {
 					categoryList.push(dealList[i].dealCategory);
         }
       }
-				console.log(categoryList);
-
     } else {
       for(var i = 0; i < selectDealIdList.length; i++){
         if(selectDealIdList[i] == $(this).val()){
