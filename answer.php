@@ -23,6 +23,7 @@
     　</p>
     </div>
   </div>
+	<div class="home"><a href="index.php">< HOMEへ</a></div>
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>

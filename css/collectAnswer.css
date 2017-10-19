@@ -4,6 +4,19 @@ html {
   background-color: black;
 }
 
-#message {
-  color: white;
+#res {
+  text-align: center;
+  display: block;
+}
+
+#result {
+  width: 900px;
+}
+
+#teamResult {
+}
+
+.result {
+  display: none;
+  height: 200px;
 }
