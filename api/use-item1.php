@@ -50,15 +50,9 @@
 
         $itemUseHistory = new ItemUseHistory();
         $itemUseHistory->insert($team_id, $item_id, array($deal_id), $use_result);
-<<<<<<< HEAD
-
-        TeamStatus::useItem1($_SESSION['LXMC_TEAM']);
-
-=======
         
         TeamStatus::useItem1($_SESSION['LXMC_TEAM'], $quiz_no);
         
->>>>>>> fix teamstatus
         $db = null;
         $deal = null;
 
