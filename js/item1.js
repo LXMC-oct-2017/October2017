@@ -14,7 +14,7 @@ $('.switch').on('click', function() {
     });
   };
 
-/*
+
   let api = new LxmcApi();
   api.data = {
     "quizNo": quizNo,
@@ -22,7 +22,7 @@ $('.switch').on('click', function() {
   }
   api.errorHandler = function(data){console.log(data);};
   api.callApi('./api/クイズ.php', onSucceeded);
-  */
+
 
 	var response = "test"; // test data
 	if (ans === response){

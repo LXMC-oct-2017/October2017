@@ -57,10 +57,10 @@ insert into ITEM_USE(DEAL_ID, ITEM_USE_HISTORY_ID)
                    ,(100002, '0-2')
 ;
 
-insert into QUIZ( QUESTION, ANSWER, ITEM_ID )
-           value( 'クイズ1', '回答1', 0, 1)
-		       ,( 'クイズ2', '回答2', 0, 2)
-			   ,( 'クイズ3', '回答3', 0, 3)
-			   ,( 'クイズ4', '回答4', 0, 4 )
-			   ,( 'クイズ5', '回答5', 1, 5 )
+insert into QUIZ( QUIZ_ID, QUESTION, ANSWER, ITEM_ID )
+           value( 0, 'クイズ1', MD5('ANS1'), 0 )
+		       ,( 1, 'クイズ2', MD5('ANS2'), 0 )
+			   ,( 2, 'クイズ3', MD5('ANS3'), 0 )
+			   ,( 3, 'クイズ4', MD5('ANS4'), 0 )
+			   ,( 4, 'クイズ5', MD5('ANS5'), 1 )
 ;
