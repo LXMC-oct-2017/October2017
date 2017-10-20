@@ -47,7 +47,7 @@
 ?>
 		<div class="spacer"></div>
 		<div id="message">
-	    <p>結果発表まで少々お待ちください
+	    <p><center>結果発表まで少々お待ちください</center>
 	    </p>
 	  </div>
 		<div class="spacer"></div>
