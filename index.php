@@ -46,55 +46,5 @@
   <div id="footer">
     <img src="img/luxa_footer.png" width="100%"/>
   </div>
-
-  <script type="text/javascript">
-    $('body').ready(function(){
-        getItemUseHistory();
-    });
-
-    let getItemUseHistory = function(teamId){
-        $.ajax({
-            type: "GET",
-            url: "./api/get-item-use-history.php",
-            dataType: "json",
-            success: showJson,
-            error: function( data ){console.log(data.responseText);},
-        });
-    }
-
-    let createTable = function(){
-        let table = $('<table></table>').attr('id', 'item-use-history').appendTo('#item-use-history');
-        let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-        tr.append('<th>アイテム</th>');
-        tr.append('<th>ディールID</th>');
-        tr.append('<th>ITEM_USE_RESULT</th>');
-    }
-
-    let showJson = function(json){
-        if(json.length == 0 ){
-            return;
-        }
-        createTable();
-        json.forEach( function(data){
-            let teamId = data.teamId;
-            let itemName = data.itemName;
-            let dealIds = data.dealIdList;
-            let itemUseResult = data.itemUseResult;
-            let tr = $('<tr></tr>').appendTo($('#item-use-history-table'));
-            tr.append('<td>'+itemName+'</td>');
-            tr.append('<td>'+dealIds+'</td>');
-            tr.append('<td>'+itemUseResult+'</td>');
-        });
-    }
-
-    let cleanTable = function(){
-        $('#item-use-history-table').empty();
-        let tr = $("<tr></tr>").appendTo($('#item-use-history-table'));
-        tr.append('<th>TEAM_ID</th>');
-        tr.append('<th>ITEM_ID</th>');
-        tr.append('<th>DEAL_ID_LIST</th>');
-        tr.append('<th>ITEM_USE_RESULT</th>');
-    }
-  </script>
 </body>
 </html>

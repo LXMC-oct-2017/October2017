@@ -11,8 +11,8 @@ let = processQuizResponse = function(data){
 	if (data.flag){
 		alert("正解です！");
 		$('ul').remove();
-		
-	  
+
+
 		let onSucceeded = function(json) {
 			dealList = new Array();
 			json.forEach(function(val, key) {
@@ -31,7 +31,7 @@ let = processQuizResponse = function(data){
 			// ディール金額公開ボタン(制御)
 			var $form = $('<form></form>');
 			$('.files').wrap($form);
-			$('.files').after('<input class="submit" type="button" value="合計金額公開"/>');
+			$('.files').after('<div><center><input class="submit" type="button" value="金額公開"/></center></div>');
 
 			createDealInputForm(dealList, function(){
 				return {name: "radio-group", type: "radio"}
@@ -57,7 +57,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 		if( idx == i ){
 			let hiddenChild = file.children('.deals:hidden');
 			console.log(hiddenChild.length);
-			if( hiddenChild.length > 0 ){ 
+			if( hiddenChild.length > 0 ){
 				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
 			}else{
 				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
@@ -72,14 +72,14 @@ $('#contents-inner').on('click', '.file-title', function(){
 //		id: "page-bottom",
 //		'class': "page-bottom"
 //	});
-//	
+//
 //	var $moveSub = $('<a></a>', {
 //		id: "move-submit",
 //		'class': "move-submit",
 //		href: "javascript:void(0);",
 //		html: '▼'
 //	});
-//	
+//
 //	var $moveBottomBtn = $($moveBtn).append($moveSub).wrapInner('<p></p>');
 //	$('#contents-inner').before($moveBottomBtn);
 
@@ -89,7 +89,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 $('.switch').on('click', function() {
 	quizNo = $(this).index();
 	displayQuizNo = $(this).index() + 1;
-	
+
 	let ans = prompt("クイズ" + displayQuizNo + "の答えを入力してください\n※答えは半角で入力してください");
 	var api = new LxmcApi();
 	api.data = {"quizNo":quizNo, "ans":ans};

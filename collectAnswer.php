@@ -26,12 +26,12 @@ FROM (
 	, @rank := @rank + cnt
 	FROM (SELECT @rank := 1) AS Dummy,
 	(SELECT answer_price
-	, count(*) AS cnt FROM answer GROUP BY answer_price ORDER BY abs(answer_price - 70000) DESC) AS GroupBy) AS Ranking JOIN answer ON answer.answer_price = Ranking.answer_price JOIN team ON answer.team_id = team.team_id ORDER BY rank ASC;");
+	, count(*) AS cnt FROM answer GROUP BY answer_price ORDER BY abs(answer_price - 70000) ASC) AS GroupBy) AS Ranking JOIN answer ON answer.answer_price = Ranking.answer_price JOIN team ON answer.team_id = team.team_id ORDER BY rank ASC;");
 
 $i = 0;
-$array = [];
+$array = array();
 foreach( $answers as $value ){
-  if($value['rank'] != 1 || $value['rank'] != 2 || $value['rank'] != 3 || $value['rank'] != 19) {
+  if($value['rank'] != '1' && $value['rank'] != '2' && $value['rank'] != '3' && $value['rank'] != '19') {
     $ans['RANK'] = $value['rank'];
     $ans['TEAM_NAME'] = $value['team_name'];
     $ans['ANSWER_PRICE'] = $value['answer_price'];
@@ -41,7 +41,6 @@ foreach( $answers as $value ){
   }
   ++$i;
 }
-
 /*
 	$i = 0;
 	$array = [];
@@ -59,7 +58,7 @@ foreach( $answers as $value ){
 
   echo '<div id="top">他チームは別途発表</div><br>';
   echo '<div id="teamResult">';
-	foreach( (array)$array as $ans ){
+	foreach( $array as $ans ){
 		echo '<div class="result">'.$ans['RANK'].'位 '.$ans['TEAM_NAME'].'チーム '.$ans['ANSWER_PRICE'].'円（'.$ans['DIF'].'）</div>';
 	}
   echo '</div>';

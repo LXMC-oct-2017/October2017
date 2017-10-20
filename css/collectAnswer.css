@@ -11,6 +11,7 @@ html {
 
 #result {
   width: 900px;
+  text-li
 }
 
 #teamResult {
@@ -19,4 +20,5 @@ html {
 .result {
   display: none;
   height: 200px;
+  text-align: center;
 }
