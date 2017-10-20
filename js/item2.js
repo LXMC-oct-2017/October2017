@@ -12,7 +12,7 @@ let = processQuizResponse = function(data){
 			var deal = new Deal(json[key].dealId, json[key].dealTitle, json[key].dealPrice, json[key].category, json[key].no);
 			dealList.push(deal);
 		});
-		
+
 		//	create file elements and its root
 		var $file0 = $('<div class="file" id="file0"></div>').append($('<div class="file-title" id="file-title0" value="0">価格帯（低）</div>'));
 		var $file1 = $('<div class="file" id="file1"></div>').append($('<div class="file-title" id="file-title1" value="1">価格帯（中）</div>'));
@@ -25,7 +25,7 @@ let = processQuizResponse = function(data){
 		// ディール金額公開ボタン(制御)
 		var $form = $('<form></form>');
 		$('.files').wrap($form);
-		$('.files').after('<input class="submit" type="button" value="合計金額公開"/>');
+		$('.files').after('<div><center><input class="submit" type="button" value="合計金額公開"/></center></div>');
 
 		createDealInputForm(dealList, function(){
 			return {name: "checkbox-group", type: "checkbox"}
@@ -58,7 +58,7 @@ $('#contents-inner').on('click', '.file-title', function(){
 		let file = $('#file'+i);
 		if( idx == i ){
 			let hiddenChild = file.children('.deals:hidden');
-			if( hiddenChild.length > 0 ){ 
+			if( hiddenChild.length > 0 ){
 				file.children('.deals').show(FADE_DURATION_MILLI_SEC);
 			}else{
 				file.children('.deals').hide(FADE_DURATION_MILLI_SEC);
