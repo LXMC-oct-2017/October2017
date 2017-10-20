@@ -56,7 +56,7 @@ foreach( $answers as $value ){
   */
 
 
-  echo '<div id="top">他チームは別途発表</div><br>';
+  echo '<div id="top"><center>他チームは別途発表</center></div><br>';
   echo '<div id="teamResult">';
 	foreach( $array as $ans ){
 		echo '<div class="result">'.$ans['RANK'].'位 '.$ans['TEAM_NAME'].'チーム '.$ans['ANSWER_PRICE'].'円（'.$ans['DIF'].'）</div>';
